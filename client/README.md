@@ -1,4 +1,4 @@
-# task-management
+# client
 
 ## Project setup
 ```
