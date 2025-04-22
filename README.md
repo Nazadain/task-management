@@ -23,4 +23,5 @@
 
 # Стек технологий *(предварительно)*
 **Backend:** PHP, Lavarel, Swagger, MySQL и др.
-**Frontend:** Vue, AJAX и др.
+
+**Frontend:** Vue и др.
