@@ -7,3 +7,35 @@ services:
       - "8081:8080"
     volumes:
       - ./client:/app
+
+#  server:
+#    build: ./server
+#    ports:
+#      - "8000:80"
+#    volumes:
+#      - ./server:/var/www/html
+#    environment:
+#      - DB_HOST=mysql
+#      - DB_DATABASE=laravel
+#      - DB_USERNAME=root
+#      - DB_PASSWORD=secret
+#    depends_on:
+#      - mysql
+#
+#  mysql:
+#    image: mysql:8.0
+#    volumes:
+#      - ./mysql/data:/var/lib/mysql
+#    environment:
+#      - MYSQL_DATABASE=laravel
+#      - MYSQL_ROOT_PASSWORD=secret
+#    ports:
+#      - "3306:3306"
+#
+#  phpmyadmin:
+#    image: phpmyadmin
+#    restart: always
+#    ports:
+#      - 8080:80
+#    environment:
+#      - PMA_HOST=mysql
