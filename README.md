@@ -1,19 +1,29 @@
-# task-management
+# TestHerd *(кодовое имя)*
+Веб-платформа для управления задачами, созданная командой "MOV AX, BX" в рамках дисциплины "Ознакомительная практика".
 
-## Project setup
-```
-npm install
-```
+**Вуз:** Югорский государственный университет (ЮГУ)
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+# Команда проекта 
+**Соколов Николай Леонидович (ПИ31б)**
+- капитан команды
+- Backend
+- DevOps
 
-### Compiles and minifies for production
-```
-npm run build
-```
+**Павловский Никита Вячеславович (ИВТ31б)**
+- Frontend (главный программист)
+- DevOps 
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+**Газизов Руслан Фидратович (ПИ31б)**
+- Frontend (программист)
+- дизайн
+- аналитика
+
+**Токарев Александр Дмитриевич (ПИ31б)**
+- аналитика
+
+# Стек технологий *(предварительно)*
+**Backend:** PHP, Composer, Laravel, WebSocket, Swagger, MySQL и др.
+
+**Frontend и дизайн:** Vue, WebSocket, Figma и др.
+
+**DevOps:** Docker (Compose)
