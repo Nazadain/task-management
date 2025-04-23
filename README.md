@@ -1,4 +1,4 @@
-# task-management
+# TestHerd *(кодовое имя)*
 Веб-платформа для управления задачами, созданная командой "MOV AX, BX" в рамках дисциплины "Ознакомительная практика".
 
 **Вуз:** Югорский государственный университет (ЮГУ)
@@ -22,8 +22,8 @@
 - аналитика
 
 # Стек технологий *(предварительно)*
-**Backend:** PHP, Laravel, WebSocket, Swagger, MySQL и др.
+**Backend:** PHP, Composer, Laravel, WebSocket, Swagger, MySQL и др.
 
-**Frontend:** Vue, WebSocket, Figma и др.
+**Frontend и дизайн:** Vue, WebSocket, Figma и др.
 
 **DevOps:** Docker (Compose)
