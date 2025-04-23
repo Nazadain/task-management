@@ -4,7 +4,7 @@
 
 <template>
   <div class="app">
-    Hello, world!
+    <router-view></router-view>
   </div>
 </template>
 
