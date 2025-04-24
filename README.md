@@ -22,8 +22,8 @@
 - аналитика
 
 # Стек технологий *(предварительно)*
-**Backend:** PHP, Composer, Laravel, WebSocket, Swagger, MySQL и др.
+**Backend:** PHP, Composer, Laravel, WebSockets, Swagger, MySQL, Eloquent ORM и др.
 
-**Frontend и дизайн:** Vue, WebSocket, Figma и др.
+**Frontend и дизайн:** Vue 3, TypeScript, WebPack, WebSockets, Figma и др.
 
 **DevOps:** Docker (Compose)
