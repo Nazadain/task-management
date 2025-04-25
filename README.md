@@ -3,7 +3,7 @@
 
 **Вуз:** Югорский государственный университет (ЮГУ)
 
-# Команда проекта 
+# Команда проекта
 **Соколов Николай Леонидович (ПИ31б)**
 - капитан команды
 - Backend
@@ -11,7 +11,7 @@
 
 **Павловский Никита Вячеславович (ИВТ31б)**
 - Frontend (главный программист)
-- DevOps 
+- DevOps
 
 **Газизов Руслан Фидратович (ПИ31б)**
 - Frontend (программист)
@@ -22,7 +22,7 @@
 - аналитика
 
 # Стек технологий *(предварительно)*
-**Backend:** PHP, Composer, Laravel, WebSockets, Swagger, MySQL, Eloquent ORM и др.
+**Backend:** PHP, Composer, Laravel, WebSockets, Swagger, MySQL, Eloquent ORM, Laravel Sanctum и др.
 
 **Frontend и дизайн:** Vue 3, TypeScript, WebPack, WebSockets, Figma и др.
 
