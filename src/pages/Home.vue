@@ -1,9 +1,22 @@
 <script>
+import TaskCard from "@/components/UI/TaskCard.vue";
 
 export default {
+  components: {TaskCard},
   data() {
     return {
-      isModalOpen: false
+      isModalOpen: false,
+      participants: [
+        {
+          id: 1
+        },
+        {
+          id: 2
+        },
+        {
+          id: 3
+        },
+      ]
     }
   },
   methods: {
@@ -15,39 +28,26 @@ export default {
 </script>
 
 <template>
-  <h1>Hello, World!</h1>
+  <div>
+    <h1>Hello, World!</h1>
 
-  <button @click="openModal">Открыть окно</button>
-
-  <ui-modal v-model:show="isModalOpen">
-    <h3>Goodbye, world!</h3>
-  </ui-modal>
-
-  <div class="status__board">
-    <div class="status__board-content">
-
-    </div>
+    <task-card
+        title="Название задачи"
+        percentage="13"
+        color="#F59E0B"
+        priority="1"
+        deadline="1 Мая"
+        :participants="participants"
+    />
   </div>
-
 </template>
 
 <style scoped>
-.status__board {
+div {
   display: flex;
-  background: #A78BFA;
-  border-radius: 10px;
-  width: 300px;
-  height: 500px;
-  padding: 5px 2px 2px 2px;
-  margin: 10px auto;
-  align-items: center;
-  justify-content: center;
-}
-.status__board-content {
-  display: flex;
-  background: #FFFFFF;
-  width: 100%;
-  height: 100%;
-  border-radius: 8px;
+  flex-direction: column;
+  text-align: center;
+  margin: 0 auto;
+  gap: 25px;
 }
 </style>
