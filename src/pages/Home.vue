@@ -1,44 +1,31 @@
-<script>
-import TaskCard from "@/components/UI/TaskCard.vue";
+<script setup lang="ts">
 
-export default {
-  components: {TaskCard},
-  data() {
-    return {
-      isModalOpen: false,
-      participants: [
-        {
-          id: 1
-        },
-        {
-          id: 2
-        },
-        {
-          id: 3
-        },
-      ]
-    }
-  },
-  methods: {
-    openModal() {
-      this.isModalOpen = true
-    }
-  }
-}
+import TaskCard from "@/components/task/TaskCard.vue";
+import {onMounted, ref} from "vue";
+
+const tasks = ref([]);
+
+onMounted(async () => {
+  const response = await fetch("/tasks.json")
+  tasks.value = await response.json();
+})
+
 </script>
 
 <template>
   <div>
     <h1>Hello, World!</h1>
 
-    <task-card
-        title="Название задачи"
-        percentage="13"
-        color="#F59E0B"
-        priority="1"
-        deadline="1 Мая"
-        :participants="participants"
-    />
+    <div class="tasks">
+      <task-card
+          v-for="task in tasks"
+          :task="task"
+          color="#F59E0B"
+          :participants="participants"
+      />
+    </div>
+
+
   </div>
 </template>
 

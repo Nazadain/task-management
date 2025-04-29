@@ -1,73 +1,51 @@
-<script setup>
+<script setup lang="ts">
 
 import Icon from "@/components/UI/Icon.vue";
 import UserIcon from "@/components/UI/UserIcon.vue";
-import {onBeforeMount, ref} from "vue";
+import {computed, ref} from "vue";
 import DropdownMenu from "@/components/UI/DropdownMenu.vue";
+import {Task, User} from "@/types";
+import TaskTag from "@/components/task/TaskTag.vue";
 
-const props = defineProps({
-  title: {
-    type: String,
-    required: true,
-  },
-  color: {
-    type: String,
-    default: "currentColor"
-  },
-  percentage: {
-    type: Number,
-    default: 0,
-  },
-  deadline: {
-    type: Date,
-    default: null,
-  },
-  priority: {
-    type: Number,
-    default: null
-  },
-  participants: {
-    type: Array,
-    default: () => []
-  },
-});
+interface Props {
+  task: Task
+  color?: string,
+  participants: User[],
+}
+
+const props = defineProps<Props>();
 
 defineOptions({
   name: "task-card"
 });
 
-let priorityName = null;
-let show = ref(false);
-
-function setPriority(priority) {
-  if (!priority) {
-    return;
-  }
-
-  if (priority == 0) {
-    priorityName = "Низкий";
-  } else if (priority == 1) {
-    priorityName = "Обычный"
-  } else {
-    priorityName = "Высокий"
-  }
+const priorities = {
+  0: "Низкий",
+  1: "Обычный",
+  2: "Высокий"
 }
 
-function trimWords(word) {
-  if (word === "Обычный") {
-    return "Обычн"
-  } else if (word === "Низкий") {
-    return "Низк"
-  } else if (word === "Высокий") {
-    return "Выс"
-  } else {
-    return word;
-  }
+const slicedWords = {
+  "Низкий": "Низк",
+  "Обычный": "Обычн",
+  "Высокий": "Выс"
 }
 
-onBeforeMount(() => {
-  setPriority(props.priority)
-})
+const priorityName = computed(() =>
+    priorities[props.task.priority]);
+const slicedPriority = computed(() =>
+    slicedWords[priorityName.value]);
+const formattedDeadline = computed(() => {
+  const raw = props.task.deadline;
+  if (!raw) return null;
+  const date = new Date(raw);
+  if (isNaN(date.getTime())) return null;
+  return date.toLocaleDateString("ru-RU", {
+    day: "2-digit",
+    month: "short",
+  });
+});
+const show = ref(false);
 
 </script>
 
@@ -75,51 +53,44 @@ onBeforeMount(() => {
   <div class="task__card">
     <header class="header">
       <dropdown-menu v-model:show="show"></dropdown-menu>
-      <p class="title">{{ title }}</p>
+      <p class="title">{{ task.title }}</p>
       <div class="kebab-menu">
-        <Icon name="kebab" size="20" @click="show = !show"/>
+        <Icon name="kebab" :size="20" @click="show = !show"/>
       </div>
     </header>
 
     <div class="progress">
       <div class="info">
         <p class="progress-title">Прогресс</p>
-        <p class="progress-percentage">{{ percentage }}%</p>
+        <p class="progress-percentage">{{ task.progress }}%</p>
       </div>
       <div class="progress-bar">
         <div class="bar"
-             :style="`width: ${props.percentage}%; background: ${props.color}`"
+             :style="`width: ${task.progress}%; background: ${props.color}`"
         />
       </div>
     </div>
 
     <div class="task-data">
       <div class="tags">
-        <div
-            v-if="props.deadline"
-            class="tag deadline"
-        >
+        <task-tag v-if="task.deadline">
           <div class="icon">
             <Icon name="calendar" size="20"/>
           </div>
 
           <p class="deadline-data">
-            {{ props.deadline }}
+            {{ formattedDeadline }}
           </p>
-        </div>
-
-        <div
-            v-if="props.priority"
-            class="tag priority"
-        >
+        </task-tag>
+        <task-tag v-if="task.priority">
           <div class="icon">
             <Icon name="clock" size="20"/>
           </div>
 
           <p class="priority-data">
-            {{ trimWords(priorityName) }}
+            {{ slicedPriority }}
           </p>
-        </div>
+        </task-tag>
       </div>
 
       <div class="participants">
@@ -144,6 +115,7 @@ onBeforeMount(() => {
   border-radius: 10px;
   padding: 20px;
   gap: 15px;
+  text-align: left;
 }
 
 .header {
@@ -210,18 +182,6 @@ onBeforeMount(() => {
   align-items: center;
   justify-content: space-between;
   gap: 10px;
-}
-
-.task-data .tags .tag {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  background-color: #EDEEF0;
-  border-radius: 10px;
-  padding: 3px 5px;
-  gap: 3px;
 }
 
 .task-data .participants {

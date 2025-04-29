@@ -1,11 +1,11 @@
-import {createApp} from "vue";
+import {createApp, DefineComponent} from "vue";
 import App from "@/App.vue";
 import router from "@/router/router";
 import components from "@/components/UI";
 
 const app = createApp(App)
 
-components.forEach(component => {
+components.forEach((component : DefineComponent) => {
     app.component(component.name, component)
 })
 
