@@ -1,15 +1,6 @@
 <script setup lang="ts">
 
-import TaskCard from "@/components/task/TaskCard.vue";
-import {onMounted, ref} from "vue";
-
-const tasks = ref([]);
-
-onMounted(async () => {
-  const response = await fetch("/tasks.json")
-  tasks.value = await response.json();
-})
-
+import PanelContainer from "@/components/panel/PanelContainer.vue";
 </script>
 
 <template>
@@ -17,15 +8,8 @@ onMounted(async () => {
     <h1>Hello, World!</h1>
 
     <div class="tasks">
-      <task-card
-          v-for="task in tasks"
-          :task="task"
-          color="#F59E0B"
-          :participants="participants"
-      />
+      <panel-container/>
     </div>
-
-
   </div>
 </template>
 

@@ -4,32 +4,47 @@
     "title": "Название задачи №1",
     "priority": 1,
     "deadline": "2025-05-1",
-    "progress": 31
+    "progress": 31,
+    "panelId": 2
   },
   {
     "id": 2,
     "title": "Название задачи №2",
-    "priority": 0,
     "deadline": "2025-05-9",
-    "progress": 7
+    "progress": 7,
+    "priority": 0,
+    "panelId": 2
   },
   {
     "id": 3,
     "title": "Название задачи №3",
     "priority": 2,
     "deadline": "2025-04-30",
-    "progress": 94
+    "progress": 94,
+    "panelId": 1
   },
   {
     "id": 4,
     "title": "Название слегка длинной задачи №4",
-    "progress": 0
+    "progress": 0,
+    "priority": null,
+    "deadline": null,
+    "panelId": 2
   },
   {
     "id": 5,
     "title": "Название задачи №5",
     "priority": 1,
     "deadline": "2025-05-1",
-    "progress": 31
+    "progress": 31,
+    "panelId": 1
+  },
+  {
+    "id": 6,
+    "title": "Название завершенной задачи №6",
+    "priority": 2,
+    "deadline": "2025-04-27",
+    "progress": 100,
+    "panelId": 3
   }
 ]

@@ -1,10 +1,12 @@
 <script setup lang="ts">
 
 interface Props {
-  className?: string
+  className?: string;
 }
 
-const props = defineProps<Props>();
+const props = withDefaults(defineProps<Props>(), {
+  className: '',
+});
 
 </script>
 
@@ -14,7 +16,7 @@ const props = defineProps<Props>();
   </div>
 </template>
 
-<style>
+<style scoped>
 .tag {
   display: flex;
   flex-direction: row;

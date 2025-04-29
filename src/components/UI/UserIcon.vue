@@ -1,10 +1,16 @@
 <script setup>
 
+import Icon from "@/components/UI/Icon.vue";
+
 </script>
 
 <template>
 <div class="user__icon">
-  X
+  <Icon
+      name="user"
+      :size="12"
+      color="#90A4AE"
+  />
 </div>
 </template>
 

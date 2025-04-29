@@ -5,7 +5,7 @@ import components from "@/components/UI";
 
 const app = createApp(App)
 
-components.forEach((component : DefineComponent) => {
+components.forEach((component: DefineComponent): void => {
     app.component(component.name, component)
 })
 
