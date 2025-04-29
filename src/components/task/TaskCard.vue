@@ -20,6 +20,8 @@ defineOptions({
   name: "task-card"
 });
 
+const emit = defineEmits({});
+
 const shortWords = {
   0: "Низк",
   1: "Обычн",
@@ -39,6 +41,18 @@ const formattedDeadline = computed(() => {
   });
 });
 
+const hasTaskData = computed(() => {
+  return (
+      props.task.deadline !== null ||
+      props.task.priority !== null ||
+      (props.participants && props.participants.length > 0)
+  );
+});
+
+const deleteTask = (): void => {
+  emit("delete", props.task.id);
+}
+
 </script>
 
 <template>
@@ -46,6 +60,7 @@ const formattedDeadline = computed(() => {
     <card-header
         :title="task.title"
         :icon-size="20"
+        @delete="deleteTask"
     />
 
     <task-progress
@@ -53,7 +68,10 @@ const formattedDeadline = computed(() => {
         :color="color"
     />
 
-    <div class="task-data">
+    <div
+        v-if="hasTaskData"
+        class="task-data"
+    >
       <div class="tags">
         <task-tag
             v-if="props.task.deadline !== null">
@@ -91,7 +109,6 @@ const formattedDeadline = computed(() => {
   display: flex;
   flex-direction: column;
   min-width: 200px;
-  min-height: 150px;
   width: 250px;
   box-shadow: 0 0 4px 0 #90A4AE50;
   border-radius: 10px;

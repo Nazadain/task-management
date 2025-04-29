@@ -16,11 +16,13 @@ onMounted(async () => {
 
   const tasksResponse = await fetch('/tasks.json')
   tasks.value = await tasksResponse.json();
-
 });
 
 const addTask = (newTask) => {
   tasks.value.push(newTask);
+}
+const deleteTask = (id: number): void => {
+  tasks.value = tasks.value.filter(task => task.id !== id);
 }
 </script>
 
@@ -31,6 +33,7 @@ const addTask = (newTask) => {
         :panel="panel"
         :tasks="tasks.filter(t => t?.panelId === panel.id) ?? []"
         @addTask="addTask"
+        @delete="deleteTask"
         :key="panel.id"
     />
   </div>

@@ -30,8 +30,7 @@ function hideModal() {
   position: absolute;
   display: flex;
   flex-direction: column;
-  width: 100px;
-  height: 100px;
+  width: 75%;
   padding: 10px;
   box-shadow: 0 0 4px 0 #90A4AE;
   background-color: #FFFFFF;

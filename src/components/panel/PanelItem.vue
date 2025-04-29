@@ -23,6 +23,11 @@ const addTask = (newTask: Task): void => {
   emit("addTask", newTask);
 }
 
+const deleteTask = (id: number): void => {
+  console.log(`PanelItem ID: ${id}`)
+  emit("delete", id);
+}
+
 const users = ref<User[]>([]);
 
 onMounted(async () => {
@@ -51,6 +56,7 @@ onMounted(async () => {
           :color="panel.colour"
           :participants="users.filter(u => task.id in u.tasks)"
           :key="task.id"
+          @delete="deleteTask"
       />
     </div>
 
