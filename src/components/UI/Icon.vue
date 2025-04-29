@@ -2,19 +2,15 @@
 import {computed} from "vue";
 import {icons} from "@/assets/icons";
 
-const props = defineProps({
-  name: {
-    type: String,
-    required: true
-  },
-  size: {
-    type: Number,
-    default: 24
-  },
-  color: {
-    type: String,
-    default: "currentColor"
-  },
+interface Props {
+  name: string;
+  size?: number;
+  color?: string;
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  size: 24,
+  color: 'currentColor',
 });
 
 const icon = computed(() => icons[props.name] || '');

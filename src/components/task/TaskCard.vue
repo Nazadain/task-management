@@ -11,7 +11,7 @@ import CardHeader from "@/components/layout/CardHeader.vue";
 interface Props {
   task: Task
   color?: string,
-  participants: User[],
+  participants?: User[],
 }
 
 const props = defineProps<Props>();
@@ -25,15 +25,6 @@ const shortWords = {
   1: "Обычн",
   2: "Выс"
 }
-
-const isDeadlineSoon = computed(() => {
-  if (!props.task.deadline) return false;
-  const today = new Date();
-  const deadline = new Date(props.task.deadline);
-  const diffInMs = deadline.getTime() - today.getTime();
-  const diffInDays = diffInMs / (1000 * 60 * 60 * 24);
-  return diffInDays <= 2 && diffInDays >= 0;
-});
 
 const shortPriorityName = computed(() =>
     shortWords[props.task.priority]);
@@ -84,7 +75,7 @@ const formattedDeadline = computed(() => {
         </task-tag>
       </div>
 
-      <div class="participants">
+      <div class="participants" v-if="props.participants">
         <UserIcon
             v-for="(user, index) in participants"
             :key="user.id"

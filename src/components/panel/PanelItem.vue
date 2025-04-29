@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import {Panel, Task} from "@/types";
+import {Panel, Task, User} from "@/types";
 import TaskCard from "@/components/task/TaskCard.vue";
 import Icon from "@/components/UI/Icon.vue";
 import AddTaskContainer from "@/components/panel/AddTask.vue";
+import {onMounted, ref} from "vue";
 
 interface Props {
   panel: Panel;
@@ -17,19 +18,17 @@ defineOptions({
 
 const emit = defineEmits({});
 
-const users = [
-  {
-    id: 1,
-  },
-  {
-    id: 2,
-  },
-];
-
 const addTask = (newTask: Task): void => {
   newTask.panelId = props.panel.id;
   emit("addTask", newTask);
 }
+
+const users = ref<User[]>([]);
+
+onMounted(async () => {
+  const response = await fetch("/users.json")
+  users.value = await response.json();
+})
 
 </script>
 
@@ -50,7 +49,7 @@ const addTask = (newTask: Task): void => {
           v-for="task in tasks"
           :task="task"
           :color="panel.colour"
-          :participants="users"
+          :participants="users.filter(u => task.id in u.tasks)"
           :key="task.id"
       />
     </div>

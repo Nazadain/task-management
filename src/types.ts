@@ -1,5 +1,6 @@
 export interface User {
     id: number;
+    tasks: number[]
 }
 
 export interface Panel {

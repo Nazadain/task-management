@@ -1,14 +1,16 @@
-<script setup>
+<script setup lang="ts">
+
+interface Props {
+  show: boolean;
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  show: false,
+})
+
 defineOptions({
   name: "dropdown-menu",
 })
-
-const props = defineProps({
-  show: {
-    type: Boolean,
-    default: false
-  },
-});
 
 const emit = defineEmits({})
 
@@ -18,7 +20,7 @@ function hideModal() {
 </script>
 
 <template>
-  <div v-if="show" class="dropdown__menu" @click="hideModal">
+  <div v-if="props.show" class="dropdown__menu" @click="hideModal">
     <slot></slot>
   </div>
 </template>

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+
 interface Props {
   progress: number,
   color: string,
