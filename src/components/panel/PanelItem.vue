@@ -4,6 +4,7 @@ import TaskCard from "@/components/task/TaskCard.vue";
 import AddTaskContainer from "@/components/panel/AddTask.vue";
 import {onMounted, ref} from "vue";
 import PanelHeader from "@/components/panel/PanelHeader.vue";
+import AddForm from "@/components/UI/AddForm.vue";
 
 interface Props {
   panel: Panel;
@@ -18,22 +19,34 @@ defineOptions({
 
 const emit = defineEmits({});
 
-const addTask = (newTask: Task): void => {
-  newTask.panelId = props.panel.id;
-  emit("addTask", newTask);
-}
+const isFormOpen = ref<boolean>(false);
 
+const addTask = (title: string): void => {
+  const newTask: Task = {
+    id: Date.now(),
+    title: title,
+    progress: 0,
+    deadline: undefined,
+    priority: undefined,
+    panelId: props.panel.id
+  }
+  emit("addTask", newTask);
+  isFormOpen.value = false;
+}
 const deleteTask = (id: number): void => {
   emit("deleteTask", id);
 }
 const deletePanel = (): void => {
-  emit("deletePanel", props.panel.id)
+  emit("deletePanel", props.panel.id);
+}
+const openForm = () => {
+  isFormOpen.value = true;
 }
 
 const users = ref<User[]>([]);
 
 onMounted(async () => {
-  const response = await fetch("/users.json")
+  const response = await fetch("/users.json");
   users.value = await response.json();
 })
 
@@ -45,6 +58,7 @@ onMounted(async () => {
         :title="panel.title"
         :color="panel.colour"
         @deletePanel="deletePanel"
+        @openTaskForm="openForm"
     />
 
     <div class="tasks" v-if="tasks.length > 0">
@@ -57,22 +71,17 @@ onMounted(async () => {
           @deleteTask="deleteTask"
       />
     </div>
-
-    <add-task-container
-        @addTask="addTask"
-    />
+    <add-form
+        :show="isFormOpen"
+        @add="addTask"
+        @openForm="openForm"
+    >
+      Добавить задачу
+    </add-form>
   </div>
 </template>
 
 <style scoped>
-.panel {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-width: 250px;
-  gap: 10px;
-}
-
 .tasks {
   display: flex;
   flex-direction: column;

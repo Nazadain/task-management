@@ -2,9 +2,8 @@
 
 import PanelItem from "@/components/panel/PanelItem.vue";
 import {onMounted, ref} from "vue";
-import Icon from "@/components/UI/Icon.vue";
 import {Panel, Task} from "@/types";
-import BlockBtn from "@/components/UI/BlockBtn.vue";
+import AddForm from "@/components/UI/AddForm.vue";
 
 defineOptions({
   name: "panel-container",
@@ -12,7 +11,7 @@ defineOptions({
 
 const panels = ref<Panel[]>([]);
 const tasks = ref<Task[]>([]);
-const newPanelText = ref<string>('');
+const isFormOpen = ref<boolean>(false);
 
 onMounted(async () => {
   const panelsResponse = await fetch('/panels.json')
@@ -28,8 +27,20 @@ const addTask = (newTask: Task): void => {
 const deleteTask = (id: number): void => {
   tasks.value = tasks.value.filter(task => task.id !== id);
 }
+const addPanel = (title: string): void => {
+  const newPanel: Panel = {
+    id: Date.now(),
+    title: title,
+    colour: "#71DD37"
+  }
+  panels.value.push(newPanel);
+  isFormOpen.value = false;
+}
 const deletePanel = (id: number): void => {
   panels.value = panels.value.filter(panel => panel.id !== id);
+}
+const openForm = (): void => {
+  isFormOpen.value = true;
 }
 </script>
 
@@ -44,20 +55,14 @@ const deletePanel = (id: number): void => {
         @deletePanel="deletePanel"
         :key="panel.id"
     />
-    <div class="add_panel">
-      <form class="add_task-form">
-        <textarea
-            v-model="newPanelText"
-            placeholder="Название задачи"
-            maxlength="127"
-            @keydown.enter.prevent="addTask"
-            required
-        />
-        <input type="submit" hidden>
-      </form>
-      <block-btn icon="plus">
+    <div class="panel add_panel">
+      <add-form
+          :show="isFormOpen"
+          @add="addPanel"
+          @openForm="openForm"
+      >
         Добавить колонку
-      </block-btn>
+      </add-form>
     </div>
   </div>
 </template>
@@ -67,26 +72,16 @@ const deletePanel = (id: number): void => {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
-  justify-content: space-between;
   align-items: start;
   text-align: left;
+  gap: 25px;
 }
 
-.add_panel .add_panel-btn {
+.panel__container .panel {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
-  gap: 5px;
-  padding: 10px 15px;
-  background: #FFFFFF;
-  box-shadow: 0 0 4px 0 #90A4AE50;
-  border-radius: 10px;
-  cursor: pointer;
-}
-
-.add_panel .add_panel-btn:hover {
-  box-shadow: 0 0 4px 0 #90A4AE80;
-  transition: 0.2s;
+  min-width: 250px;
+  gap: 10px;
 }
 </style>

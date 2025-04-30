@@ -4,6 +4,7 @@ import AddTaskForm from "@/components/panel/AddTaskForm.vue";
 import {ref} from "vue";
 import BlockBtn from "@/components/UI/BlockBtn.vue";
 import {Task} from "@/types";
+import AddForm from "@/components/UI/AddForm.vue";
 
 defineOptions({
   name: 'add-task-container'
@@ -25,16 +26,9 @@ const openForm = (): void => {
 
 <template>
   <div class="add_task-container">
-    <add-task-form
-        :show="show"
-        @addTask="addTask"
-    />
-    <block-btn
-        icon="plus"
-        @click="openForm"
-    >
+    <add-form>
       Добавить задачу
-    </block-btn>
+    </add-form>
   </div>
 </template>
 

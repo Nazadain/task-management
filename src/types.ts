@@ -1,3 +1,5 @@
+import {Sidebar} from "@/store/sidebar";
+
 export interface User {
     id: number;
     tasks: number[]
@@ -16,5 +18,9 @@ export interface Task {
     priority?: number;
     progress: number;
     panelId: number;
+}
+
+export interface RootState {
+    sidebar: Sidebar,
 }
 

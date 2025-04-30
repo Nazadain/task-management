@@ -27,7 +27,6 @@ const shortWords: {[key: number]: string} = {
   1: "Обычн",
   2: "Выс"
 }
-
 const shortPriorityName = computed(() => {
   if (props.task.priority !== undefined) {
     return shortWords[props.task.priority];
@@ -43,15 +42,13 @@ const formattedDeadline = computed(() => {
     month: "short",
   });
 });
-
 const hasTaskData = computed(() => {
   return (
-      props.task.deadline !== null ||
-      props.task.priority !== null ||
+      props.task.deadline ||
+      props.task.priority ||
       (props.participants && props.participants.length > 0)
   );
 });
-
 const deleteTask = (): void => {
   emit("deleteTask", props.task.id);
 }
@@ -77,7 +74,7 @@ const deleteTask = (): void => {
     >
       <div class="tags">
         <task-tag
-            v-if="props.task.deadline !== null">
+            v-if="props.task.deadline">
           <div class="icon">
             <Icon name="calendar" :size="20"/>
           </div>
@@ -86,7 +83,7 @@ const deleteTask = (): void => {
           </p>
         </task-tag>
 
-        <task-tag v-if="props.task.priority !== null">
+        <task-tag v-if="props.task.priority">
           <div class="icon">
             <Icon name="clock" :size="20"/>
           </div>

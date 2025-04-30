@@ -4,6 +4,8 @@ import DropdownMenu from "@/components/UI/DropdownMenu.vue";
 import Icon from "@/components/UI/Icon.vue";
 import {ref} from "vue";
 import DropdownBtn from "@/components/UI/DropdownBtn.vue";
+import {useStore} from "vuex";
+import {RootState} from "@/types";
 
 interface Props {
   color?: string,
@@ -13,6 +15,7 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   color: 'currentColor',
 });
+const store = useStore<RootState>();
 
 const emit = defineEmits({});
 
@@ -21,13 +24,29 @@ const show = ref(false);
 const deletePanel = (): void => {
   emit("deletePanel");
 }
+const openTaskForm = () => {
+  emit("openTaskForm");
+}
+const openEditSidebar = () => {
+  store.commit("sidebar/show", {contentType: 'panel'})
+}
 </script>
 
 <template>
   <header class="header">
     <dropdown-menu v-model:show="show">
-      <dropdown-btn icon="plus">Добавить задачу</dropdown-btn>
-      <dropdown-btn icon="edit">Редактировать</dropdown-btn>
+      <dropdown-btn
+          icon="plus"
+          @click="openTaskForm"
+      >
+        Добавить задачу
+      </dropdown-btn>
+      <dropdown-btn
+          icon="edit"
+          @click="openEditSidebar"
+      >
+        Редактировать
+      </dropdown-btn>
       <dropdown-btn
           icon="delete"
           color="#FF4828"
