@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import {Panel, Task, User} from "@/types";
 import TaskCard from "@/components/task/TaskCard.vue";
-import Icon from "@/components/UI/Icon.vue";
 import AddTaskContainer from "@/components/panel/AddTask.vue";
 import {onMounted, ref} from "vue";
+import PanelHeader from "@/components/panel/PanelHeader.vue";
 
 interface Props {
   panel: Panel;
@@ -24,8 +24,10 @@ const addTask = (newTask: Task): void => {
 }
 
 const deleteTask = (id: number): void => {
-  console.log(`PanelItem ID: ${id}`)
-  emit("delete", id);
+  emit("deleteTask", id);
+}
+const deletePanel = (): void => {
+  emit("deletePanel", props.panel.id)
 }
 
 const users = ref<User[]>([]);
@@ -39,24 +41,20 @@ onMounted(async () => {
 
 <template>
   <div class="panel">
-    <header class="header">
-      <div class="title">
-        <div class="point" :style="`background: ${props.panel.colour}`"></div>
-        {{ panel.title }}
-      </div>
-      <div class="icon">
-        <Icon name="kebab" :size="24"/>
-      </div>
-    </header>
+    <panel-header
+        :title="panel.title"
+        :color="panel.colour"
+        @deletePanel="deletePanel"
+    />
 
     <div class="tasks" v-if="tasks.length > 0">
       <task-card
           v-for="task in tasks"
           :task="task"
           :color="panel.colour"
-          :participants="users.filter(u => task.id in u.tasks)"
+          :participants="users.filter((u: User) => u.tasks.includes(task.id))"
           :key="task.id"
-          @delete="deleteTask"
+          @deleteTask="deleteTask"
       />
     </div>
 
@@ -73,32 +71,6 @@ onMounted(async () => {
   align-items: center;
   min-width: 250px;
   gap: 10px;
-}
-
-.header {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.header .title {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  gap: 5px;
-  font-size: 18px;
-}
-
-.header .title .point {
-  width: 10px;
-  height: 10px;
-  border-radius: 100%;
-}
-
-.header .icon {
-  cursor: pointer;
 }
 
 .tasks {

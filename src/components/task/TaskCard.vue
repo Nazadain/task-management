@@ -6,7 +6,7 @@ import {computed} from "vue";
 import {Task, User} from "@/types";
 import TaskTag from "@/components/task/TaskTag.vue";
 import TaskProgress from "@/components/task/TaskProgress.vue";
-import CardHeader from "@/components/layout/CardHeader.vue";
+import TaskHeader from "@/components/task/TaskHeader.vue";
 
 interface Props {
   task: Task
@@ -22,14 +22,17 @@ defineOptions({
 
 const emit = defineEmits({});
 
-const shortWords = {
+const shortWords: {[key: number]: string} = {
   0: "Низк",
   1: "Обычн",
   2: "Выс"
 }
 
-const shortPriorityName = computed(() =>
-    shortWords[props.task.priority]);
+const shortPriorityName = computed(() => {
+  if (props.task.priority !== undefined) {
+    return shortWords[props.task.priority];
+  }
+});
 const formattedDeadline = computed(() => {
   const raw = props.task.deadline;
   if (!raw) return null;
@@ -50,14 +53,14 @@ const hasTaskData = computed(() => {
 });
 
 const deleteTask = (): void => {
-  emit("delete", props.task.id);
+  emit("deleteTask", props.task.id);
 }
 
 </script>
 
 <template>
   <div class="task__card">
-    <card-header
+    <task-header
         :title="task.title"
         :icon-size="20"
         @delete="deleteTask"
@@ -111,6 +114,7 @@ const deleteTask = (): void => {
   min-width: 200px;
   width: 250px;
   box-shadow: 0 0 4px 0 #90A4AE50;
+  background: #FFFFFF;
   border-radius: 10px;
   padding: 20px;
   gap: 15px;

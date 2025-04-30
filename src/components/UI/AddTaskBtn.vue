@@ -9,9 +9,7 @@ defineOptions({
 
 <template>
   <div class="add_task-btn">
-    <div class="plus-icon">
-      <Icon name="plus" :size="15"/>
-    </div>
+    <Icon name="plus" :size="15"/>
     Добавить задачу
   </div>
 </template>

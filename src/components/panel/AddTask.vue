@@ -1,8 +1,9 @@
 <script setup lang="ts">
 
-import AddTaskBtn from "@/components/panel/AddTaskBtn.vue";
 import AddTaskForm from "@/components/panel/AddTaskForm.vue";
 import {ref} from "vue";
+import AddTaskBtn from "@/components/UI/AddTaskBtn.vue";
+import {Task} from "@/types";
 
 defineOptions({
   name: 'add-task-container'
@@ -10,7 +11,7 @@ defineOptions({
 
 const emit = defineEmits({});
 
-const show: boolean = ref(false);
+const show = ref<boolean>(false);
 
 const addTask = (newTask: Task): void => {
   emit("addTask", newTask);

@@ -16,4 +16,7 @@
   margin: 0;
   padding: 0;
 }
+body {
+  background: #F5F5F9;
+}
 </style>

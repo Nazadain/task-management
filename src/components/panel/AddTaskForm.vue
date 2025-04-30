@@ -18,10 +18,10 @@ const addTask = () => {
   const newTask : Task = {
     id: Date.now(),
     title: newTaskText.value,
-    deadline: null,
-    priority: null,
+    deadline: undefined,
+    priority: undefined,
     progress: 0,
-    panelId: null
+    panelId: -1
   }
   emit("addTask", newTask);
   newTaskText.value = "";

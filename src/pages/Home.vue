@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import PanelContainer from "@/components/panel/PanelContainer.vue";
+import PanelsContainer from "@/components/panel/PanelsContainer.vue";
 </script>
 
 <template>
@@ -8,7 +8,7 @@ import PanelContainer from "@/components/panel/PanelContainer.vue";
     <h1>Hello, World!</h1>
 
     <div class="tasks">
-      <panel-container/>
+      <panels-container/>
     </div>
   </div>
 </template>
