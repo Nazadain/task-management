@@ -1,4 +1,5 @@
 import {Sidebar} from "@/store/sidebar";
+import {TasksState} from "@/store/tasks";
 
 export interface User {
     id: number;
@@ -22,5 +23,7 @@ export interface Task {
 
 export interface RootState {
     sidebar: Sidebar,
+    task: TasksState,
+    panel: Panel,
 }
 

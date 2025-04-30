@@ -3,6 +3,7 @@
 import {computed, ref} from "vue";
 import {useStore} from "vuex";
 import {RootState} from "@/types";
+import Icon from "@/components/UI/Icon.vue";
 
 const store = useStore<RootState>();
 
@@ -29,8 +30,17 @@ const hideSidebar = () => {
         :ref="sidebarRef"
         @click.stop
     >
-      <div v-if="contentType === 'task'">
-        Задача
+      <div
+          v-if="contentType === 'task'"
+          class="edit_task-container"
+      >
+        <header class="header">
+          <h2>Редактировать задачу</h2>
+          <div class="icon" @click="hideSidebar">
+            <Icon name="cross" />
+          </div>
+        </header>
+        <hr>
       </div>
       <div v-else-if="contentType === 'panel'">
         Колонка
@@ -51,18 +61,34 @@ const hideSidebar = () => {
   z-index: 1000;
 }
 
-.drawer__container .drawer__container-content {
+.drawer__container-content {
   position: absolute;
   top: 0;
   right: -30%;
   display: flex;
   flex-direction: column;
+  width: 30%;
+  height: 100%;
+  padding: 25px;
+  gap: 25px;
+  background: #FFFFFF;
+  transition: 0.2s;
+}
+
+.drawer__container-content .header {
+  display: flex;
+  flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  height: 100%;
-  background: #FFFFFF;
-  width: 30%;
-  transition: 0.2s;
+}
+
+.drawer__container-content .header h2 {
+  font-size: 20px;
+  font-weight: 550;
+}
+
+.drawer__container-content .header .icon {
+  cursor: pointer;
 }
 
 .active {
