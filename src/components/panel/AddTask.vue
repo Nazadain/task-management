@@ -2,7 +2,7 @@
 
 import AddTaskForm from "@/components/panel/AddTaskForm.vue";
 import {ref} from "vue";
-import AddTaskBtn from "@/components/UI/AddTaskBtn.vue";
+import BlockBtn from "@/components/UI/BlockBtn.vue";
 import {Task} from "@/types";
 
 defineOptions({
@@ -29,9 +29,12 @@ const openForm = (): void => {
         :show="show"
         @addTask="addTask"
     />
-    <add-task-btn
+    <block-btn
+        icon="plus"
         @click="openForm"
-    />
+    >
+      Добавить задачу
+    </block-btn>
   </div>
 </template>
 

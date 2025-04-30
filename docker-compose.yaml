@@ -1,6 +1,6 @@
 services:
   client:
-    build: ../../../../../../Users/ASUS/AppData/Local/Temp/Rar$DRa4684.39547/task-management-main
+    build: .
     ports:
       - "5000:8080"
     volumes:

@@ -30,6 +30,7 @@ const deletePanel = (): void => {
       <dropdown-btn icon="edit">Редактировать</dropdown-btn>
       <dropdown-btn
           icon="delete"
+          color="#FF4828"
           @click="deletePanel"
       >
         Удалить

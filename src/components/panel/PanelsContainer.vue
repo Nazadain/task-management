@@ -4,6 +4,7 @@ import PanelItem from "@/components/panel/PanelItem.vue";
 import {onMounted, ref} from "vue";
 import Icon from "@/components/UI/Icon.vue";
 import {Panel, Task} from "@/types";
+import BlockBtn from "@/components/UI/BlockBtn.vue";
 
 defineOptions({
   name: "panel-container",
@@ -54,10 +55,9 @@ const deletePanel = (id: number): void => {
         />
         <input type="submit" hidden>
       </form>
-      <div class="add_panel-btn">
-        <Icon name="plus" size="20"/>
+      <block-btn icon="plus">
         Добавить колонку
-      </div>
+      </block-btn>
     </div>
   </div>
 </template>

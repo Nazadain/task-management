@@ -3,14 +3,17 @@ import Icon from "@/components/UI/Icon.vue";
 
 interface Props {
   icon: string
+  color?: string;
 }
 
-defineProps<Props>();
+const props = withDefaults(defineProps<Props>(), {
+  color: "currentColor",
+});
 </script>
 
 <template>
-  <div class="btn">
-    <Icon :name="icon" :size="20"/>
+  <div class="btn" :style="`color: ${props.color}`">
+    <Icon :name="icon" :size="20" :color="color" />
     <slot></slot>
   </div>
 </template>
