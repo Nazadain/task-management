@@ -4,9 +4,9 @@ import Icon from "@/components/UI/Icon.vue";
 import UserIcon from "@/components/UI/UserIcon.vue";
 import {computed} from "vue";
 import {RootState, Task, User} from "@/types";
-import TaskTag from "@/components/task/TaskTag.vue";
-import TaskProgress from "@/components/task/TaskProgress.vue";
-import TaskHeader from "@/components/task/TaskHeader.vue";
+import TaskCardTag from "@/components/task/TaskCardTag.vue";
+import TaskCardProgress from "@/components/task/TaskCardProgress.vue";
+import TaskCardHeader from "@/components/task/TaskCardHeader.vue";
 import {useStore} from "vuex";
 import {Content} from "@/store/sidebar";
 
@@ -24,7 +24,9 @@ defineOptions({
   name: "task-card"
 });
 
-const emit = defineEmits({});
+const emit = defineEmits([
+    "deleteTask",
+]);
 
 const shortWords: { [key: number]: string } = {
   0: "Низк",
@@ -68,14 +70,14 @@ const deleteTask = (): void => {
 
 <template>
   <div class="task__card">
-    <task-header
+    <task-card-header
         :title="task.title"
         :icon-size="20"
         @open-sidebar="openSidebar"
         @delete="deleteTask"
     />
 
-    <task-progress
+    <task-card-progress
         :progress="task.progress"
         :color="color"
     />
@@ -85,7 +87,7 @@ const deleteTask = (): void => {
         class="task-data"
     >
       <div class="tags">
-        <task-tag
+        <task-card-tag
             v-if="props.task.deadline">
           <div class="icon">
             <Icon name="calendar" :size="20"/>
@@ -93,16 +95,16 @@ const deleteTask = (): void => {
           <p class="deadline-data">
             {{ formattedDeadline }}
           </p>
-        </task-tag>
+        </task-card-tag>
 
-        <task-tag v-if="props.task.priority !== undefined">
+        <task-card-tag v-if="props.task.priority !== undefined">
           <div class="icon">
             <Icon name="clock" :size="20"/>
           </div>
           <p class="priority-data">
             {{ shortPriorityName }}
           </p>
-        </task-tag>
+        </task-card-tag>
       </div>
 
       <div class="participants" v-if="props.participants">

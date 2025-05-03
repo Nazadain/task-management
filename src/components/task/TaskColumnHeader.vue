@@ -15,9 +15,12 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   color: 'currentColor',
 });
-const store = useStore<RootState>();
 
-const emit = defineEmits({});
+const emit = defineEmits([
+    "deletePanel",
+    "openTaskForm",
+    "openSidebar"
+]);
 
 const show = ref(false);
 

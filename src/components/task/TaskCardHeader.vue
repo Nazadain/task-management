@@ -19,7 +19,10 @@ defineOptions({
 
 const show = ref(false);
 
-const emit = defineEmits({});
+const emit = defineEmits([
+    "delete",
+    "open-sidebar",
+]);
 
 const deleteTask = () => {
   emit("delete")

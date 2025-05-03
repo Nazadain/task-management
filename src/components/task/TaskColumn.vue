@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {Panel, Task, User} from "@/types";
 import TaskCard from "@/components/task/TaskCard.vue";
-import {computed, onMounted, ref, watch} from "vue";
+import {computed, onMounted, ref} from "vue";
 import TaskColumnHeader from "@/components/task/TaskColumnHeader.vue";
 import AddForm from "@/components/UI/AddForm.vue";
 import {Content} from "@/store/sidebar";
@@ -18,7 +18,12 @@ defineOptions({
   name: 'panel-item'
 })
 
-const emit = defineEmits({});
+const emit = defineEmits([
+  "addTask",
+  "deleteTask",
+  "deletePanel",
+  "openSidebar",
+]);
 
 const isFormOpen = ref<boolean>(false);
 
@@ -39,6 +44,7 @@ const addTask = (title: string): void => {
   isFormOpen.value = false;
 }
 const reorderTasks = (e: any) => {
+  console.log(`Task orderIndex: ${e.newIndex}`);
   // Получаем e.newIndex и передаём его в бд
 }
 const deleteTask = (id: number): void => {

@@ -12,7 +12,9 @@ defineOptions({
   name: "dropdown-menu",
 })
 
-const emit = defineEmits({})
+const emit = defineEmits([
+    "update:show",
+])
 
 function hideModal() {
   emit("update:show", false);

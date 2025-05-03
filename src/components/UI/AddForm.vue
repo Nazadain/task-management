@@ -21,7 +21,10 @@ defineOptions({
   name: "add-form",
 })
 
-const emit = defineEmits();
+const emit = defineEmits([
+    "add",
+    "openForm",
+]);
 
 const areaValue = ref<string>('');
 
