@@ -3,14 +3,14 @@
     "id": 1,
     "title": "Название задачи №1",
     "priority": 1,
-    "deadline": "2025-05-1",
+    "deadline": "2025-05-01",
     "progress": 31,
     "panelId": 2
   },
   {
     "id": 2,
     "title": "Название задачи №2",
-    "deadline": "2025-05-9",
+    "deadline": "2025-05-09",
     "progress": 7,
     "priority": 0,
     "panelId": 2
@@ -27,15 +27,13 @@
     "id": 4,
     "title": "Название слегка длинной задачи №4",
     "progress": 0,
-    "priority": null,
-    "deadline": null,
     "panelId": 2
   },
   {
     "id": 5,
     "title": "Название задачи №5",
     "priority": 1,
-    "deadline": "2025-05-1",
+    "deadline": "2025-05-01",
     "progress": 31,
     "panelId": 1
   },

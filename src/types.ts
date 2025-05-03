@@ -1,5 +1,6 @@
 import {Sidebar} from "@/store/sidebar";
 import {TasksState} from "@/store/tasks";
+import {PanelsState} from "@/store/panels";
 
 export interface User {
     id: number;
@@ -15,15 +16,15 @@ export interface Panel {
 export interface Task {
     id: number;
     title: string;
-    deadline?: string;
-    priority?: number;
+    deadline?: string | null;
+    priority?: number | null;
     progress: number;
     panelId: number;
 }
 
 export interface RootState {
     sidebar: Sidebar,
-    task: TasksState,
-    panel: Panel,
+    tasks: TasksState,
+    panels: PanelsState,
 }
 

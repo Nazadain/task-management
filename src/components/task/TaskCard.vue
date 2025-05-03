@@ -3,10 +3,12 @@
 import Icon from "@/components/UI/Icon.vue";
 import UserIcon from "@/components/UI/UserIcon.vue";
 import {computed} from "vue";
-import {Task, User} from "@/types";
+import {RootState, Task, User} from "@/types";
 import TaskTag from "@/components/task/TaskTag.vue";
 import TaskProgress from "@/components/task/TaskProgress.vue";
 import TaskHeader from "@/components/task/TaskHeader.vue";
+import {useStore} from "vuex";
+import {Content} from "@/store/sidebar";
 
 interface Props {
   task: Task
@@ -16,13 +18,15 @@ interface Props {
 
 const props = defineProps<Props>();
 
+const store = useStore<RootState>();
+
 defineOptions({
   name: "task-card"
 });
 
 const emit = defineEmits({});
 
-const shortWords: {[key: number]: string} = {
+const shortWords: { [key: number]: string } = {
   0: "Низк",
   1: "Обычн",
   2: "Выс"
@@ -45,10 +49,17 @@ const formattedDeadline = computed(() => {
 const hasTaskData = computed(() => {
   return (
       props.task.deadline ||
-      props.task.priority ||
+      props.task.priority !== null ||
       (props.participants && props.participants.length > 0)
   );
 });
+const openSidebar = (): void => {
+  const content: Content = {
+    value: {...props.task},
+    type: 'task'
+  }
+  store.commit("sidebar/show", {content: content});
+}
 const deleteTask = (): void => {
   emit("deleteTask", props.task.id);
 }
@@ -60,6 +71,7 @@ const deleteTask = (): void => {
     <task-header
         :title="task.title"
         :icon-size="20"
+        @open-sidebar="openSidebar"
         @delete="deleteTask"
     />
 
@@ -83,7 +95,7 @@ const deleteTask = (): void => {
           </p>
         </task-tag>
 
-        <task-tag v-if="props.task.priority">
+        <task-tag v-if="props.task.priority !== undefined">
           <div class="icon">
             <Icon name="clock" :size="20"/>
           </div>

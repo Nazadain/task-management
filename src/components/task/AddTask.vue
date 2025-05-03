@@ -1,8 +1,6 @@
 <script setup lang="ts">
 
-import AddTaskForm from "@/components/panel/AddTaskForm.vue";
 import {ref} from "vue";
-import BlockBtn from "@/components/UI/BlockBtn.vue";
 import {Task} from "@/types";
 import AddForm from "@/components/UI/AddForm.vue";
 
@@ -26,7 +24,7 @@ const openForm = (): void => {
 
 <template>
   <div class="add_task-container">
-    <add-form>
+    <add-form @add="addTask">
       Добавить задачу
     </add-form>
   </div>

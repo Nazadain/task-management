@@ -7,12 +7,14 @@ interface Props {
   show: boolean;
   color?: string;
   background?: string;
+  placeholder?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   show: false,
   color: "currentColor",
   background: "#FFFFFF",
+  placeholder: "Placeholder",
 })
 
 defineOptions({
@@ -36,7 +38,7 @@ const openForm = (): void => {
   <form class="add_form" v-if="show">
         <textarea
             v-model="areaValue"
-            placeholder="Название задачи"
+            :placeholder="placeholder"
             maxlength="127"
             @keydown.enter.prevent="add"
             required

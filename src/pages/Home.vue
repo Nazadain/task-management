@@ -1,16 +1,16 @@
 <script setup lang="ts">
 
-import PanelsContainer from "@/components/panel/PanelsContainer.vue";
-import EditDrawer from "@/components/UI/EditDrawer.vue";
+import TaskBoard from "@/components/task/TaskBoard.vue";
+import Drawer from "@/components/drawer/Drawer.vue";
 </script>
 
 <template>
   <div>
-    <edit-drawer />
+    <drawer />
     <div class="container">
       <h1>Hello, World!</h1>
-      <div class="tasks">
-        <panels-container/>
+      <div class="tasks__container">
+        <task-board/>
       </div>
     </div>
   </div>

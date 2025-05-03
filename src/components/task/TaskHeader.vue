@@ -3,8 +3,6 @@ import DropdownMenu from "@/components/UI/DropdownMenu.vue";
 import Icon from "@/components/UI/Icon.vue";
 import {ref} from "vue";
 import DropdownBtn from "@/components/UI/DropdownBtn.vue";
-import {useStore} from "vuex";
-import {RootState} from "@/types";
 
 interface Props {
   title: string;
@@ -14,7 +12,6 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   iconSize: 24
 });
-const store = useStore<RootState>();
 
 defineOptions({
   name: 'card-header',
@@ -28,7 +25,7 @@ const deleteTask = () => {
   emit("delete")
 }
 const openEditSidebar = () => {
-  store.commit("sidebar/show", {contentType: 'task'});
+  emit("open-sidebar");
 }
 </script>
 

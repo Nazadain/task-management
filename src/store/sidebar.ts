@@ -1,11 +1,19 @@
+import {Panel, Task} from "@/types";
+
 export interface Sidebar {
     isVisible: boolean;
     isActive: boolean;
-    contentType: string | null;
+    content: Content;
+}
+
+export interface Content {
+    value: Task | Panel | null;
+    type: string | null;
 }
 
 interface Payload {
     contentType: string;
+    content: Content;
 }
 
 export default {
@@ -13,12 +21,12 @@ export default {
     state: (): Sidebar => ({
         isVisible: false,
         isActive: false,
-        contentType: null,
+        content: {value: null, type: null}
     }),
     mutations: {
         show(state: Sidebar, payload: Payload): void {
             state.isVisible = true;
-            state.contentType = payload.contentType;
+            state.content = payload.content;
             setTimeout(() => {
                 state.isActive = true;
             }, 1)
@@ -26,8 +34,8 @@ export default {
         hide(state: Sidebar): void {
             state.isActive = false;
             setTimeout(() => {
-                state.contentType = null;
                 state.isVisible = false;
+                state.content = {value: null, type: null}
             }, 200)
         },
         toggle(state: Sidebar): void {

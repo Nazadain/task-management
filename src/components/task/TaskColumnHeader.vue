@@ -28,7 +28,7 @@ const openTaskForm = () => {
   emit("openTaskForm");
 }
 const openEditSidebar = () => {
-  store.commit("sidebar/show", {contentType: 'panel'})
+  emit("openSidebar")
 }
 </script>
 
