@@ -5,7 +5,8 @@ import {computed, onMounted, ref} from "vue";
 import {Panel, RootState, Task} from "@/types";
 import AddForm from "@/components/UI/AddForm.vue";
 import {useStore} from "vuex";
-import {Content} from "@/store/sidebar";
+import {Content} from "@/store/drawer";
+import {VueDraggableNext} from "vue-draggable-next";
 
 defineOptions({
   name: "panel-container",
@@ -17,27 +18,20 @@ const panels = computed(() => store.getters["panel/panels"]);
 const tasks = computed(() => store.getters["task/tasks"]);
 const isFormOpen = ref<boolean>(false);
 
-onMounted(async () => {
-  const panelsResponse = await fetch('/panels.json')
-  const panels = await panelsResponse.json();
+const onDragChange = () => {
   store.commit("panel/setPanels", panels);
-
-  const tasksResponse = await fetch('/tasks.json');
-  const tasks = await tasksResponse.json();
-  store.commit("task/setTasks", tasks);
-});
-
+}
 const openSidebar = (content: Content): void => {
   store.commit("sidebar/show", {content: content});
 }
 const addTask = (newTask: Task): void => {
   store.commit("task/addTask", newTask);
 }
-const reorderTasksInColumn = (tasks: Task[]): void => {
-  store.commit("task/reorderTasks", tasks);
+const updateTask = (newTask: Task): void => {
+  store.commit("task/updateTask", newTask);
 }
-const moveTaskToColumn = (task: Task): void => {
-  store.commit("task/updateTask", task);
+const updateTasksOrder = (newTasks: Task[]): void => {
+  store.commit("task/reorderTasks", newTasks);
 }
 const deleteTask = (id: number): void => {
   store.commit("task/removeTask", id);
@@ -57,22 +51,40 @@ const deletePanel = (id: number): void => {
 const openForm = (): void => {
   isFormOpen.value = true;
 }
+
+onMounted(async () => {
+  const panelsResponse = await fetch('/panels.json')
+  const panels = await panelsResponse.json();
+  store.commit("panel/setPanels", panels);
+
+  const tasksResponse = await fetch('/tasks.json');
+  const tasks = await tasksResponse.json();
+  store.commit("task/setTasks", tasks);
+});
+
 </script>
 
 <template>
   <div class="task__board">
-    <task-column
-        v-for="panel in panels"
-        :panel="panel"
-        :tasks="tasks.filter((t: Task) => t.panelId === panel.id)"
-        @openSidebar="openSidebar"
-        @reorderLocal="reorderTasksInColumn"
-        @reorderGlobal="moveTaskToColumn"
-        @addTask="addTask"
-        @deleteTask="deleteTask"
-        @deletePanel="deletePanel"
-        :key="panel.id"
-    />
+    <VueDraggableNext
+        class="task__board"
+        :list="panels"
+        group="panels"
+        @change="onDragChange"
+    >
+      <task-column
+          v-for="panel in panels"
+          :panel="panel"
+          :tasks="tasks.filter((t: Task) => t.panelId === panel.id)"
+          @openSidebar="openSidebar"
+          @addTask="addTask"
+          @updateTask="updateTask"
+          @updateTasksOrder="updateTasksOrder"
+          @deleteTask="deleteTask"
+          @deletePanel="deletePanel"
+          :key="panel.id"
+      />
+    </VueDraggableNext>
     <div class="add_panel">
       <add-form
           :show="isFormOpen"
@@ -91,14 +103,16 @@ const openForm = (): void => {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
-  align-items: start;
+  align-items: flex-start;
   text-align: left;
   gap: 25px;
-  height: 100%;
+  min-width: max-content;
 }
+
 .add_panel {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  margin-right: 25px;
 }
 </style>

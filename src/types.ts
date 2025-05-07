@@ -1,9 +1,14 @@
-import {Sidebar} from "@/store/sidebar";
+import {Drawer} from "@/store/drawer";
 import {TasksState} from "@/store/tasks";
 import {PanelsState} from "@/store/panels";
+import {AuthState} from "@/store/auth";
 
 export interface User {
     id: number;
+    username: string;
+    firstName: string;
+    lastName: string;
+    email: string;
     tasks: number[]
 }
 
@@ -23,8 +28,9 @@ export interface Task {
 }
 
 export interface RootState {
-    sidebar: Sidebar,
+    drawer: Drawer,
     tasks: TasksState,
     panels: PanelsState,
+    auth: AuthState,
 }
 

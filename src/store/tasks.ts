@@ -14,10 +14,13 @@ export default {
             state.tasks = tasks;
         },
         updateTask(state: TasksState, updatedTask: Task): void {
-            const index: number =
-                state.tasks.findIndex((task: Task): boolean =>
-                    task.id === updatedTask.id);
-            state.tasks[index] = {...state.tasks[index], ...updatedTask};
+            const task = state.tasks.find(t => t.id === updatedTask.id);
+            if (!task) {
+                console.warn(`Task with id ${updatedTask.id} not found`);
+                return;
+            }
+
+            Object.assign(task, updatedTask);
         },
         reorderTasks(state: TasksState, tasks: Task[]): void {
             state.tasks = [...state.tasks.filter(

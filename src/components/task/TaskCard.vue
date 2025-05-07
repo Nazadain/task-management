@@ -8,7 +8,7 @@ import TaskCardTag from "@/components/task/TaskCardTag.vue";
 import TaskCardProgress from "@/components/task/TaskCardProgress.vue";
 import TaskCardHeader from "@/components/task/TaskCardHeader.vue";
 import {useStore} from "vuex";
-import {Content} from "@/store/sidebar";
+import {Content} from "@/store/drawer";
 
 interface Props {
   task: Task

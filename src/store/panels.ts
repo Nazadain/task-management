@@ -22,7 +22,10 @@ export default {
             state.panels.push(newPanel);
         },
         removePanel(state: PanelsState, id: number): void {
-            state.panels = state.panels.filter((p: Panel) => p.id !== id);
+            const index = state.panels.findIndex(p => p.id === id);
+            if (index !== -1) {
+                state.panels.splice(index, 1); // ✅ безопасно, реактивно
+            }
         }
     },
     getters: {

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {Content} from "@/store/sidebar";
+import {Content} from "@/store/drawer";
 
 interface Props {
   content: Content;
@@ -30,7 +30,7 @@ const submitForm = (): void => {
       />
     </div>
 
-    <div class="form-item">
+    <div class="colour form-item">
       <label for="colour">Цвет</label>
       <input
           id="colour"

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {Content} from "@/store/sidebar";
+import {Content} from "@/store/drawer";
 
 interface Props {
   content: Content;
@@ -63,6 +63,10 @@ const submitForm = (): void => {
         <option :value="1">Обычный</option>
         <option :value="2">Высокий</option>
       </select>
+    </div>
+
+    <div class="participants-list">
+
     </div>
 
     <input class="submit-btn" type="submit" value="Применить">

@@ -37,7 +37,6 @@ function hideModal() {
   background-color: #FFFFFF;
   border-radius: 10px;
   top: 25px;
-  right: 0;
   z-index: 10;
 }
 </style>

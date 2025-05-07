@@ -1,6 +1,6 @@
 import {Panel, Task} from "@/types";
 
-export interface Sidebar {
+export interface Drawer {
     isVisible: boolean;
     isActive: boolean;
     content: Content;
@@ -18,31 +18,31 @@ interface Payload {
 
 export default {
     namespaced: true,
-    state: (): Sidebar => ({
+    state: (): Drawer => ({
         isVisible: false,
         isActive: false,
         content: {value: null, type: null}
     }),
     mutations: {
-        show(state: Sidebar, payload: Payload): void {
+        show(state: Drawer, payload: Payload): void {
             state.isVisible = true;
             state.content = payload.content;
             setTimeout(() => {
                 state.isActive = true;
             }, 1)
         },
-        hide(state: Sidebar): void {
+        hide(state: Drawer): void {
             state.isActive = false;
             setTimeout(() => {
                 state.isVisible = false;
                 state.content = {value: null, type: null}
             }, 200)
         },
-        toggle(state: Sidebar): void {
+        toggle(state: Drawer): void {
             state.isVisible = !state.isVisible;
         }
     },
     getters: {
-        isVisible: (state: Sidebar) => state.isVisible
+        isVisible: (state: Drawer) => state.isVisible
     }
 };

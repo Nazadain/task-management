@@ -4,7 +4,7 @@ import TaskCard from "@/components/task/TaskCard.vue";
 import {computed, onMounted, ref} from "vue";
 import TaskColumnHeader from "@/components/task/TaskColumnHeader.vue";
 import AddForm from "@/components/UI/AddForm.vue";
-import {Content} from "@/store/sidebar";
+import {Content} from "@/store/drawer";
 import {VueDraggableNext} from "vue-draggable-next";
 
 interface Props {
@@ -12,7 +12,7 @@ interface Props {
   tasks: Task[];
 }
 
-const props = defineProps<Props>()
+const props = defineProps<Props>();
 
 defineOptions({
   name: 'panel-item'
@@ -23,14 +23,29 @@ const emit = defineEmits([
   "deleteTask",
   "deletePanel",
   "openSidebar",
+  "updateTask",
+  "updateTasksOrder",
+  "update:tasks",
 ]);
 
 const isFormOpen = ref<boolean>(false);
 
 const filteredTasks = computed(() => {
   return props.tasks.filter((t: Task) => t.panelId === props.panel.id);
-})
+});
 
+const onDragChange = (e: any) => {
+  if (e.added) {
+    const movedTask = {
+      ...e.added.element,
+      panelId: props.panel.id
+    };
+    emit("updateTask", movedTask);
+  }
+
+  const updatedTasks = [...filteredTasks.value];
+  emit("updateTasksOrder", updatedTasks);
+}
 const addTask = (title: string): void => {
   const newTask: Task = {
     id: Date.now(),
@@ -42,10 +57,6 @@ const addTask = (title: string): void => {
   }
   emit("addTask", newTask);
   isFormOpen.value = false;
-}
-const reorderTasks = (e: any) => {
-  console.log(`Task orderIndex: ${e.newIndex}`);
-  // Получаем e.newIndex и передаём его в бд
 }
 const deleteTask = (id: number): void => {
   emit("deleteTask", id);
@@ -96,9 +107,9 @@ onMounted(async () => {
 
     <VueDraggableNext
         class="tasks__container"
-        v-model:list="tasks"
+        :list="filteredTasks"
         group="tasks"
-        @end="reorderTasks"
+        @change="onDragChange"
     >
       <task-card
           v-for="task in filteredTasks"

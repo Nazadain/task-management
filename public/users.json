@@ -1,14 +1,26 @@
 [
   {
     "id": 1,
+    "username": "admin",
+    "firstName": "Admin",
+    "lastName": "Adminov",
+    "email": "admin@mail.com",
     "tasks": [1, 2]
   },
   {
     "id": 2,
+    "username": "bobFill3906",
+    "firstName": "Bob",
+    "lastName": "Fillipov",
+    "email": "admin@mail.com",
     "tasks": [2, 5, 6]
   },
   {
     "id": 3,
+    "username": "Nazadain",
+    "firstName": "Никита",
+    "lastName": "Павловский",
+    "email": "nazadain@mail.com",
     "tasks": [3, 6, 2]
   }
 ]

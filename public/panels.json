@@ -7,11 +7,11 @@
   {
     "id": 2,
     "title": "В работе",
-    "colour": "#FF4828"
+    "colour": "#696CFF"
   },
   {
     "id": 3,
-    "title": "На проверке",
-    "colour": "#696CFF"
+    "title": "Готово",
+    "colour": "#71DD37"
   }
 ]
