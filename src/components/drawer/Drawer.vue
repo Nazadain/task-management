@@ -29,6 +29,6 @@ const isSidebarVisible = computed(() => store.state.sidebar.isVisible);
   bottom: 0;
   right: 0;
   background: #11111140;
-  z-index: 1000;
+  z-index: 1001;
 }
 </style>

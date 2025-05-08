@@ -28,7 +28,7 @@ const props = defineProps<Props>();
   align-items: center;
   width: 100%;
   height: 65px;
-  padding: 0 25px;
+  padding: 0 40px;
   border: 1px none #EDEEF0;
   border-bottom-style: solid;
   background: #fff;

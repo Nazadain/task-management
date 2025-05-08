@@ -10,7 +10,7 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
   size: 24,
-  color: 'currentColor',
+  color: 'currentcolor',
 });
 
 const icon = computed(() => icons[props.name] || '');

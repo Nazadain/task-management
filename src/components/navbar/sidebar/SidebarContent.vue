@@ -5,6 +5,8 @@ import {useStore} from "vuex";
 import {computed, onMounted, ref} from "vue";
 import Icon from "@/components/UI/Icon.vue";
 import SidebarUser from "@/components/navbar/sidebar/SidebarUser.vue";
+import routes from "@/router/router"
+import SidebarSearch from "@/components/navbar/sidebar/SidebarSearch.vue";
 
 const store = useStore<RootState>();
 
@@ -29,12 +31,29 @@ onMounted(async () => {
         :user="user"
     />
 
-    <form class="search__container">
-      <div class="search_field">
-        <Icon name="search"/>
-        <input type="text" placeholder="Поиск...">
-      </div>
-    </form>
+    <sidebar-search />
+
+    <nav class="nav">
+      <router-link
+          class="nav-link"
+          to="/">
+        <Icon
+            name="board"
+            :size="22"
+        />
+        Главная
+      </router-link>
+      <router-link
+          class="nav-link"
+          to="/boards"
+      >
+        <Icon
+            name="board"
+            :size="22"
+        />
+        Доски
+      </router-link>
+    </nav>
   </div>
 </template>
 
@@ -43,5 +62,39 @@ onMounted(async () => {
   display: flex;
   flex-direction: column;
   gap: 15px;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.nav .nav-link {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 5px;
+  font-size: 18px;
+  text-decoration: none;
+  padding: 8px 5px;
+  border-radius: 10px;
+  transition: 0.2s;
+}
+
+.nav .nav-link:hover {
+  background: #F5F5F9;
+  cursor: pointer;
+}
+
+.router-link-active {
+  color: #6F72FF;
+  background: #E7E7FF;
+}
+
+.router-link-active:hover {
+  background: #E7E7FF;
 }
 </style>

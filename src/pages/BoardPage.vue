@@ -1,26 +1,18 @@
 <script setup lang="ts">
-
 import TaskBoard from "@/components/task/TaskBoard.vue";
-import Drawer from "@/components/drawer/Drawer.vue";
 </script>
 
 <template>
-  <div>
-    <drawer/>
-    <div class="container">
-      <div class="tasks__container">
-        <task-board/>
-      </div>
-    </div>
+  <div class="scroll_container">
+    <task-board/>
   </div>
 </template>
 
 <style scoped>
-
-.container {
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-  gap: 25px;
+.scroll_container {
+  flex: 1;
+  overflow: auto;
+  height: 100%;
+  width: 100%;
 }
 </style>

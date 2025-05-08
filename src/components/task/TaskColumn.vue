@@ -106,7 +106,7 @@ onMounted(async () => {
     </add-form>
 
     <VueDraggableNext
-        class="tasks__container"
+        class="container"
         :list="filteredTasks"
         group="tasks"
         @change="onDragChange"
@@ -132,7 +132,7 @@ onMounted(async () => {
   gap: 10px;
 }
 
-.tasks__container {
+.container {
   width: 100%;
   display: flex;
   flex-direction: column;

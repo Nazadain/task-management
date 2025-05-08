@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import {Content} from "@/store/drawer";
+import {useStore} from "vuex";
+import {RootState} from "@/types";
+import {computed} from "vue";
 
 interface Props {
   content: Content;
@@ -7,7 +10,11 @@ interface Props {
 
 defineProps<Props>();
 
+const store = useStore<RootState>();
+
 const emit = defineEmits();
+
+const panels = computed(() => store.getters["panel/panels"])
 
 const submitForm = (): void => {
   emit("submitForm")
@@ -28,6 +35,21 @@ const submitForm = (): void => {
           v-model="content.value.title"
           required
       />
+    </div>
+
+    <div class="form-item">
+      <label for="status">Статус</label>
+      <select
+          id="status"
+          name="status"
+          v-model="content.value.panelId"
+      >
+        <option
+            v-for="panel in panels"
+            :value="panel.id">
+          {{ panel.title }}
+        </option>
+      </select>
     </div>
 
     <div class="form-item">

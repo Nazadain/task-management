@@ -65,9 +65,9 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="task__board">
+  <div class="container">
     <VueDraggableNext
-        class="task__board"
+        class="container"
         :list="panels"
         group="panels"
         @change="onDragChange"
@@ -99,7 +99,7 @@ onMounted(async () => {
 </template>
 
 <style scoped>
-.task__board {
+.container {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -107,6 +107,7 @@ onMounted(async () => {
   text-align: left;
   gap: 25px;
   min-width: max-content;
+  padding: 20px;
 }
 
 .add_panel {
