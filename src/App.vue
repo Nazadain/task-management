@@ -1,6 +1,21 @@
-<script setup>
+<script setup lang="ts">
 
 import SidebarContainer from "@/components/navbar/sidebar/SidebarContainer.vue";
+import {onBeforeMount, onMounted} from "vue";
+import {useStore} from "vuex";
+import {RootState} from "@/types";
+
+const store = useStore<RootState>();
+
+onBeforeMount(async () => {
+  const boardResp = await fetch("/boards.json");
+  if (!boardResp.ok) {
+    console.log("Error fetching boards.json");
+    return;
+  }
+  const boards = await boardResp.json();
+  store.commit("board/setBoards", boards);
+})
 
 </script>
 

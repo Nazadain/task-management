@@ -1,18 +1,35 @@
 <script setup lang="ts">
 import TaskBoard from "@/components/task/TaskBoard.vue";
 import {useRoute} from "vue-router";
-import {onMounted} from "vue";
+import {computed, nextTick, onMounted, watch} from "vue";
+import {useStore} from "vuex";
+import {Board, RootState} from "@/types";
 
 const route = useRoute();
 const emit = defineEmits([
     "title",
 ]);
 
-const boardId = route.params.id;
+const store = useStore<RootState>();
 
-onMounted(() => {
-  emit("title", boardId);
+const boards = computed(() => store.getters["board/boards"])
+const boardId = computed(() => Number(route.params.id));
+const board = computed<Board | undefined>(() => {
+  return boards.value.find((b: Board) => b.id === boardId.value);
+});
+
+onMounted(async () => {
+  await nextTick();
+  if (board.value) {
+    emit("title", board.title);
+  }
 })
+
+watch(board, (newBoard: Board | undefined) => {
+  if (newBoard !== undefined) {
+    emit("title", newBoard.title);
+  }
+}, {immediate: true});
 
 </script>
 
