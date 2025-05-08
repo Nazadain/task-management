@@ -38,7 +38,8 @@ onMounted(async () => {
           class="nav-link"
           to="/">
         <Icon
-            name="board"
+            class="nav-link-icon"
+            name="home"
             :size="22"
         />
         Главная
@@ -48,6 +49,7 @@ onMounted(async () => {
           to="/boards"
       >
         <Icon
+            class="nav-link-icon"
             name="board"
             :size="22"
         />
@@ -77,7 +79,8 @@ onMounted(async () => {
   align-items: center;
   flex-wrap: nowrap;
   gap: 5px;
-  font-size: 18px;
+  font-size: 16px;
+  font-weight: 600;
   text-decoration: none;
   padding: 8px 5px;
   border-radius: 10px;
@@ -94,7 +97,11 @@ onMounted(async () => {
   background: #E7E7FF;
 }
 
+.router-link-active .nav-link-icon {
+  fill: #6F72FF;
+}
+
 .router-link-active:hover {
-  background: #E7E7FF;
+  background: #E7E7FF !important;
 }
 </style>

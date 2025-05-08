@@ -2,6 +2,7 @@ import {Drawer} from "@/store/drawer";
 import {TasksState} from "@/store/tasks";
 import {PanelsState} from "@/store/panels";
 import {AuthState} from "@/store/auth";
+import {BoardState} from "@/store/boards";
 
 export interface User {
     id: number;
@@ -10,6 +11,11 @@ export interface User {
     lastName: string;
     email: string;
     tasks: number[]
+}
+
+export interface Board {
+    id: number;
+    title: string;
 }
 
 export interface Panel {
@@ -32,5 +38,6 @@ export interface RootState {
     tasks: TasksState,
     panels: PanelsState,
     auth: AuthState,
+    boards: BoardState,
 }
 

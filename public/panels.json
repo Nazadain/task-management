@@ -2,16 +2,19 @@
   {
     "id": 1,
     "title": "Нужно сделать",
-    "colour": "#F59E0B"
+    "colour": "#F59E0B",
+    "boardId": 1
   },
   {
     "id": 2,
     "title": "В работе",
-    "colour": "#696CFF"
+    "colour": "#696CFF",
+    "boardId": 1
   },
   {
     "id": 3,
     "title": "Готово",
-    "colour": "#71DD37"
+    "colour": "#71DD37",
+    "boardId": 1
   }
 ]

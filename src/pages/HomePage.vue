@@ -3,8 +3,10 @@
 </script>
 
 <template>
-  <div class="container">
+  <div class="board-list__container">
+      <header class="header">
 
+      </header>
   </div>
 </template>
 

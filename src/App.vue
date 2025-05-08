@@ -16,7 +16,6 @@ import SidebarContainer from "@/components/navbar/sidebar/SidebarContainer.vue";
 <style>
 * {
   box-sizing: border-box;
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
   color: #384551;
   margin: 0;
   padding: 0;
@@ -25,6 +24,7 @@ import SidebarContainer from "@/components/navbar/sidebar/SidebarContainer.vue";
 html, body {
   background: #F5F5F9;
   overflow: hidden;
+  font-family: "Roboto", sans-serif;
 }
 
 html, body, #app, .app, .app-body {
@@ -52,6 +52,13 @@ html, body, #app, .app, .app-body {
 *::-webkit-scrollbar-thumb {
   background: #6F72FF;
   border-radius: 10px;
+}
+
+@font-face {
+  font-family: "Roboto";
+  src: url("./assets/fonts/Roboto/Roboto-VariableFont.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
 }
 
 </style>

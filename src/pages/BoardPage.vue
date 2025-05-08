@@ -1,5 +1,19 @@
 <script setup lang="ts">
 import TaskBoard from "@/components/task/TaskBoard.vue";
+import {useRoute} from "vue-router";
+import {onMounted} from "vue";
+
+const route = useRoute();
+const emit = defineEmits([
+    "title",
+]);
+
+const boardId = route.params.id;
+
+onMounted(() => {
+  emit("title", boardId);
+})
+
 </script>
 
 <template>

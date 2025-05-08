@@ -3,6 +3,7 @@ import sidebar from "@/store/drawer";
 import task from "@/store/tasks";
 import panel from "@/store/panels";
 import auth from "@/store/auth";
+import board from "@/store/boards";
 
 export default createStore({
     modules: {
@@ -10,5 +11,6 @@ export default createStore({
         task,
         panel,
         auth,
+        board
     }
 })

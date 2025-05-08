@@ -2,18 +2,28 @@
 
 import TopbarContainer from "@/components/navbar/topbar/TopbarContainer.vue";
 import Drawer from "@/components/drawer/Drawer.vue";
+import {ref} from "vue";
+
+const pageTitle = ref<string>("");
+
+const setTitle = (title: string): void => {
+  pageTitle.value = title;
+}
+
 </script>
 
 <template>
   <drawer/>
-  <div class="container">
-    <topbar-container name="Название доски"/>
-    <router-view />
+  <div class="boards__container">
+    <topbar-container :name="pageTitle"/>
+    <router-view v-slot="{Component}">
+      <component :is="Component" @title="setTitle" />
+    </router-view>
   </div>
 </template>
 
 <style scoped>
-.container {
+.boards__container {
   display: flex;
   flex-direction: column;
   text-align: center;
