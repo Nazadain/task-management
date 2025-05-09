@@ -3,27 +3,31 @@ import TaskBoard from "@/components/task/TaskBoard.vue";
 import {useRoute} from "vue-router";
 import {computed, nextTick, onMounted, watch} from "vue";
 import {useStore} from "vuex";
-import {Board, RootState} from "@/types";
+import {Board, Panel, RootState} from "@/types";
 
 const route = useRoute();
 const emit = defineEmits([
-    "title",
+  "title",
 ]);
 
 const store = useStore<RootState>();
 
-const boards = computed(() => store.getters["board/boards"])
+const boards = computed(() => store.getters["board/boards"]);
 const boardId = computed(() => Number(route.params.id));
 const board = computed<Board | undefined>(() => {
   return boards.value.find((b: Board) => b.id === boardId.value);
+});
+const panels = computed<Panel[]>(() => {
+  const panels = store.getters["panel/panels"];
+  return panels.filter((p: Panel) => p.boardId === boardId.value);
 });
 
 onMounted(async () => {
   await nextTick();
   if (board.value) {
-    emit("title", board.title);
+    emit("title", board.value.title);
   }
-})
+});
 
 watch(board, (newBoard: Board | undefined) => {
   if (newBoard !== undefined) {
@@ -35,7 +39,10 @@ watch(board, (newBoard: Board | undefined) => {
 
 <template>
   <div class="scroll_container">
-    <task-board/>
+    <task-board
+        :board="board"
+        :panels="panels"
+    />
   </div>
 </template>
 

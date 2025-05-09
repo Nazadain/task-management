@@ -36,7 +36,7 @@ const props = defineProps<Props>();
 }
 
 .topbar__container .page-name {
-  font-size: 20px;
+  font-size: 18px;
 }
 
 .topbar__container .add__board-btn {

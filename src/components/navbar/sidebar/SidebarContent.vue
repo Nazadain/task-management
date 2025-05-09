@@ -2,16 +2,18 @@
 
 import {Board, RootState, User} from "@/types";
 import {useStore} from "vuex";
-import {computed, onMounted} from "vue";
+import {computed} from "vue";
 import SidebarUser from "@/components/navbar/sidebar/SidebarUser.vue";
 import SidebarSearch from "@/components/navbar/sidebar/SidebarSearch.vue";
 import SidebarNav from "@/components/navbar/sidebar/SidebarNav.vue";
+import {useRoute} from "vue-router";
 
 const store = useStore<RootState>();
+const router = useRoute();
 
 const user = computed<User | null>(() => store.getters["user"]);
-
 const boards = computed<Board[] | []>(() => store.getters["board/boards"]);
+const path = computed(() => router.path);
 
 </script>
 
@@ -22,6 +24,7 @@ const boards = computed<Board[] | []>(() => store.getters["board/boards"]);
     />
     <sidebar-search />
     <sidebar-nav
+        :path="path"
         :boards="boards"
     />
   </div>

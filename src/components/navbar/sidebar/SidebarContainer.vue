@@ -21,6 +21,7 @@ import SidebarContent from "@/components/navbar/sidebar/SidebarContent.vue";
   background: #fff;
   border: 1px solid #EDEEF0;
   z-index: 1000;
+  overflow-y: scroll;
 }
 
 @media (max-width: 1199px) {

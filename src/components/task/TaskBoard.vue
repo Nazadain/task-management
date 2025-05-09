@@ -2,24 +2,30 @@
 
 import TaskColumn from "@/components/task/TaskColumn.vue";
 import {computed, onMounted, ref} from "vue";
-import {Panel, RootState, Task} from "@/types";
+import {Board, Panel, RootState, Task} from "@/types";
 import AddForm from "@/components/UI/AddForm.vue";
 import {useStore} from "vuex";
 import {Content} from "@/store/drawer";
 import {VueDraggableNext} from "vue-draggable-next";
+import axios from "axios";
+
+interface Props {
+  board: Board;
+  panels: Panel[];
+}
+
+const props = defineProps<Props>();
 
 defineOptions({
   name: "panel-container",
 });
 
 const store = useStore<RootState>();
-
-const panels = computed(() => store.getters["panel/panels"]);
 const tasks = computed(() => store.getters["task/tasks"]);
 const isFormOpen = ref<boolean>(false);
 
 const onDragChange = () => {
-  store.commit("panel/setPanels", panels);
+  store.commit("panel/setPanels", props.panels);
 }
 const openSidebar = (content: Content): void => {
   store.commit("sidebar/show", {content: content});
@@ -40,7 +46,8 @@ const addPanel = (title: string): void => {
   const newPanel: Panel = {
     id: Date.now(),
     title: title,
-    colour: "#71DD37"
+    colour: "#71DD37",
+    boardId: props.board.id
   }
   store.commit("panel/addPanel", newPanel);
   isFormOpen.value = false;
@@ -53,12 +60,12 @@ const openForm = (): void => {
 }
 
 onMounted(async () => {
-  const panelsResponse = await fetch('/panels.json')
-  const panels = await panelsResponse.json();
+  const panelsResponse = await axios.get('/panels.json')
+  const panels = await panelsResponse.data;
   store.commit("panel/setPanels", panels);
 
-  const tasksResponse = await fetch('/tasks.json');
-  const tasks = await tasksResponse.json();
+  const tasksResponse = await axios.get('/tasks.json');
+  const tasks = await tasksResponse.data;
   store.commit("task/setTasks", tasks);
 });
 
@@ -67,6 +74,7 @@ onMounted(async () => {
 <template>
   <div class="board-list__container">
     <VueDraggableNext
+        v-if="panels.length > 0"
         class="board-list__container"
         :list="panels"
         group="panels"
@@ -107,7 +115,7 @@ onMounted(async () => {
   text-align: left;
   gap: 25px;
   min-width: max-content;
-  padding: 20px;
+  padding: 10px 20px;
 }
 
 .add_panel {
@@ -115,5 +123,6 @@ onMounted(async () => {
   flex-direction: column;
   gap: 10px;
   margin-right: 25px;
+  padding: 0 20px;
 }
 </style>

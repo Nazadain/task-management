@@ -4,16 +4,13 @@ import SidebarContainer from "@/components/navbar/sidebar/SidebarContainer.vue";
 import {onBeforeMount, onMounted} from "vue";
 import {useStore} from "vuex";
 import {RootState} from "@/types";
+import axios from "axios";
 
 const store = useStore<RootState>();
 
 onBeforeMount(async () => {
-  const boardResp = await fetch("/boards.json");
-  if (!boardResp.ok) {
-    console.log("Error fetching boards.json");
-    return;
-  }
-  const boards = await boardResp.json();
+  const boardResp = await axios.get("/boards.json");
+  const boards = await boardResp.data;
   store.commit("board/setBoards", boards);
 })
 
@@ -71,7 +68,7 @@ html, body, #app, .app, .app-body {
 
 @font-face {
   font-family: "Roboto";
-  src: url("./assets/fonts/Roboto/Roboto-VariableFont.ttf") format("truetype");
+  src: url("@/assets/fonts/Roboto/Roboto-VariableFont.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }

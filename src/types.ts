@@ -22,6 +22,7 @@ export interface Panel {
     id: number;
     title: string;
     colour: string;
+    boardId: number;
 }
 
 export interface Task {

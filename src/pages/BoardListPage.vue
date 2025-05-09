@@ -108,7 +108,7 @@ onMounted(async () => {
   gap: 15px;
   text-align: left;
   height: auto;
-  align-self: flex-start;
+  min-height: 125px;
   cursor: pointer;
   text-decoration: none;
   transition: 0.2s;
@@ -124,6 +124,10 @@ onMounted(async () => {
   justify-content: space-between;
   align-items: flex-start;
   font-size: 14px;
+}
+
+.board-element__header h3 {
+  font-weight: normal;
 }
 
 .add_item-btn {
