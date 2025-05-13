@@ -1,7 +1,6 @@
 <script setup lang="ts">
 
-import SidebarContainer from "@/components/navbar/sidebar/SidebarContainer.vue";
-import {onBeforeMount, onMounted} from "vue";
+import {onBeforeMount} from "vue";
 import {useStore} from "vuex";
 import {RootState} from "@/types";
 import axios from "axios";
@@ -18,10 +17,7 @@ onBeforeMount(async () => {
 
 <template>
   <div class="app">
-    <sidebar-container/>
-    <div class="app-body">
-      <router-view></router-view>
-    </div>
+    <router-view></router-view>
   </div>
 </template>
 
@@ -47,13 +43,6 @@ html, body, #app, .app, .app-body {
   display: flex;
   flex-direction: row;
   width: 100%;
-}
-
-.app-body {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  overflow: hidden;
 }
 
 *::-webkit-scrollbar {

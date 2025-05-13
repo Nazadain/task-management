@@ -23,11 +23,13 @@ defineOptions({
 const store = useStore<RootState>();
 const tasks = computed(() => store.getters["task/tasks"]);
 const isFormOpen = ref<boolean>(false);
+const isDragDisabled = computed(() => window.innerWidth < 768);
 
 const onDragChange = () => {
   store.commit("panel/setPanels", props.panels);
 }
 const openSidebar = (content: Content): void => {
+  content.boardId = props.board.id;
   store.commit("sidebar/show", {content: content});
 }
 const addTask = (newTask: Task): void => {
@@ -77,6 +79,7 @@ onMounted(async () => {
         v-if="panels.length > 0"
         class="board-list__container"
         :list="panels"
+        :disabled="isDragDisabled"
         group="panels"
         @change="onDragChange"
     >
@@ -124,5 +127,15 @@ onMounted(async () => {
   gap: 10px;
   margin-right: 25px;
   padding: 0 20px;
+}
+
+@media (max-width: 768px) {
+  .board-list__container {
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    min-width: auto;
+  }
 }
 </style>

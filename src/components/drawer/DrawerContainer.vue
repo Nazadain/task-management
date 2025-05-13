@@ -2,7 +2,7 @@
 
 import DrawerContent from "@/components/drawer/DrawerContent.vue";
 import Icon from "@/components/UI/Icon.vue";
-import {computed, ref} from "vue";
+import {computed, ref, watch} from "vue";
 import {useStore} from "vuex";
 import {RootState} from "@/types";
 import EditTaskForm from "@/components/drawer/EditTaskForm.vue";
@@ -27,6 +27,22 @@ const submitPanelEdit = (): void => {
   store.commit("panel/updatePanel", content.value.value);
   hideSidebar();
 }
+
+watch(() => isActive.value, (newVal) => {
+  if (newVal) {
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        hideSidebar();
+      }
+    })
+  } else {
+    document.removeEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        hideSidebar();
+      }
+    })
+  }
+})
 
 </script>
 
@@ -97,5 +113,12 @@ const submitPanelEdit = (): void => {
 
 .active {
   right: 0 !important;
+}
+
+@media (max-width: 768px) {
+  .drawer__container {
+    width: 95%;
+    right: -95%;
+  }
 }
 </style>

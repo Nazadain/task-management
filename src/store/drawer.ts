@@ -9,6 +9,7 @@ export interface Drawer {
 export interface Content {
     value: Task | Panel | null;
     type: string | null;
+    boardId: number | null;
 }
 
 interface Payload {
@@ -21,7 +22,7 @@ export default {
     state: (): Drawer => ({
         isVisible: false,
         isActive: false,
-        content: {value: null, type: null}
+        content: {value: null, type: null, boardId: null},
     }),
     mutations: {
         show(state: Drawer, payload: Payload): void {
@@ -35,7 +36,7 @@ export default {
             state.isActive = false;
             setTimeout(() => {
                 state.isVisible = false;
-                state.content = {value: null, type: null}
+                state.content = {value: null, type: null, boardId: null};
             }, 200)
         },
         toggle(state: Drawer): void {

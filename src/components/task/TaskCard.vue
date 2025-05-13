@@ -26,6 +26,7 @@ defineOptions({
 
 const emit = defineEmits([
     "deleteTask",
+    "openSidebar",
 ]);
 
 const shortWords: { [key: number]: string } = {
@@ -58,9 +59,10 @@ const hasTaskData = computed(() => {
 const openSidebar = (): void => {
   const content: Content = {
     value: {...props.task},
-    type: 'task'
+    type: 'task',
+    boardId: null
   }
-  store.commit("sidebar/show", {content: content});
+  emit("openSidebar", content);
 }
 const deleteTask = (): void => {
   emit("deleteTask", props.task.id);
@@ -156,5 +158,11 @@ const deleteTask = (): void => {
 
 .task-data .participants *:not(:last-child) {
   margin-right: -15px;
+}
+
+@media (max-width: 768px) {
+  .task__card {
+    width: 100%;
+  }
 }
 </style>

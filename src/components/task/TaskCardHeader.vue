@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import DropdownMenu from "@/components/UI/DropdownMenu.vue";
 import Icon from "@/components/UI/Icon.vue";
-import {ref} from "vue";
+import {computed, ref} from "vue";
 import DropdownBtn from "@/components/UI/DropdownBtn.vue";
 
 interface Props {
@@ -17,11 +17,18 @@ defineOptions({
   name: 'card-header',
 });
 
-const show = ref(false);
+const show = ref<boolean>(false);
+const exactIconSize = computed<number>((): number => {
+  if (window.innerWidth > 768) {
+    return props.iconSize;
+  } else {
+    return 28;
+  }
+});
 
 const emit = defineEmits([
-    "delete",
-    "open-sidebar",
+  "delete",
+  "open-sidebar",
 ]);
 
 const deleteTask = () => {
@@ -51,7 +58,11 @@ const openEditSidebar = () => {
     </dropdown-menu>
     <p class="title">{{ title }}</p>
     <div class="kebab-menu">
-      <Icon name="kebab" :size="iconSize" @click="show = !show"/>
+      <Icon
+          name="kebab"
+          :size="exactIconSize"
+          @click.stop="show = !show"
+      />
     </div>
   </header>
 </template>
@@ -77,5 +88,11 @@ const openEditSidebar = () => {
   width: 20px;
   height: 20px;
   cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .header .title {
+    font-size: 22px;
+  }
 }
 </style>

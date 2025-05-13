@@ -35,7 +35,7 @@ export interface Task {
 }
 
 export interface RootState {
-    drawer: Drawer,
+    sidebar: Drawer,
     tasks: TasksState,
     panels: PanelsState,
     auth: AuthState,

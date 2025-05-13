@@ -16,18 +16,6 @@ const props = defineProps<Props>();
   <nav class="nav">
     <router-link
         class="nav-link"
-        to="/">
-      <div class="nav-link-content">
-        <Icon
-            class="nav-link-icon"
-            name="home"
-            :size="22"
-        />
-        Главная
-      </div>
-    </router-link>
-    <router-link
-        class="nav-link"
         to="/boards"
     >
       <div class="nav-link-content">

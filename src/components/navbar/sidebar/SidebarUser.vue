@@ -20,7 +20,7 @@ const show = ref<boolean>(false);
     <dropdown-menu :show="show" @click="show=false">
       <dropdown-btn icon="settings">Настройки</dropdown-btn>
     </dropdown-menu>
-    <div class="user__profile" @click="show=true">
+    <div class="user__profile" @click.stop="show=true">
       <UserIcon :size="20"/>
       <div
           v-if="user"

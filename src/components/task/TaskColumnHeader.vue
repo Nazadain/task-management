@@ -64,7 +64,7 @@ const openEditSidebar = () => {
     </div>
     <div
         class="icon"
-        @click="show = !show"
+        @click.stop="show = !show"
     >
       <Icon name="kebab" :size="24"/>
     </div>

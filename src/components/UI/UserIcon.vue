@@ -3,7 +3,7 @@
 import Icon from "@/components/UI/Icon.vue";
 
 interface Props {
-  size: number;
+  size?: number;
 }
 
 const props = withDefaults(defineProps<Props>(), {

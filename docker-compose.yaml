@@ -1,6 +1,10 @@
 services:
   client:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
     ports:
       - "5000:8080"
     command: ["npm", "run", "serve"]

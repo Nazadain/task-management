@@ -29,6 +29,7 @@ const emit = defineEmits([
 ]);
 
 const isFormOpen = ref<boolean>(false);
+const isDragDisabled = computed(() => window.innerWidth < 768)
 
 const filteredTasks = computed(() => {
   return props.tasks.filter((t: Task) => t.panelId === props.panel.id);
@@ -73,7 +74,12 @@ const openSidebar = (): void => {
   const content: Content = {
     value: panel,
     type: "panel",
+    boardId: panel.boardId,
   }
+  emit("openSidebar", content);
+}
+
+const openTaskSidebar = (content: Content): void => {
   emit("openSidebar", content);
 }
 
@@ -108,6 +114,7 @@ onMounted(async () => {
     <VueDraggableNext
         class="board-list__container"
         :list="filteredTasks"
+        :disabled="isDragDisabled"
         group="tasks"
         @change="onDragChange"
     >
@@ -117,6 +124,7 @@ onMounted(async () => {
           :color="panel.colour"
           :participants="users.filter((u: User) => u.tasks.includes(task.id))"
           :key="task.id"
+          @openSidebar="openTaskSidebar"
           @deleteTask="deleteTask"
       />
     </VueDraggableNext>

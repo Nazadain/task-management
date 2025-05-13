@@ -30,7 +30,7 @@ import SidebarContent from "@/components/navbar/sidebar/SidebarContent.vue";
   }
 }
 
-@media (max-width: 991px) {
+@media (max-width: 768px) {
   .sidebar__container {
     display: none;
   }

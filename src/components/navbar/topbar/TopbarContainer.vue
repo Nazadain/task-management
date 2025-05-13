@@ -12,6 +12,9 @@ const props = defineProps<Props>();
 
 <template>
   <div class="topbar__container">
+    <div class="burger-btn">
+      <Icon name="burger" :size="30"/>
+    </div>
     <h1 class="page-name">{{ name }}</h1>
     <div class="add__board-btn">
       <Icon name="plus" :size="16" color="#6F72FF"/>
@@ -37,6 +40,10 @@ const props = defineProps<Props>();
 
 .topbar__container .page-name {
   font-size: 18px;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .topbar__container .add__board-btn {
@@ -49,5 +56,29 @@ const props = defineProps<Props>();
   background: #E7E7FF;
   color: #6F72FF;
   cursor: pointer;
+}
+
+.topbar__container .burger-btn {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .topbar__container {
+    justify-content: flex-start;
+    gap: 10px;
+    padding: 0 15px;
+  }
+
+  .topbar__container .page-name {
+    font-size: 1.2em;
+  }
+
+  .topbar__container .add__board-btn {
+    display: none;
+  }
+
+  .topbar__container .burger-btn {
+    display: flex;
+  }
 }
 </style>

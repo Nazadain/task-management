@@ -1,20 +1,23 @@
 <script setup lang="ts">
 import {Content} from "@/store/drawer";
 import {useStore} from "vuex";
-import {RootState} from "@/types";
+import {Panel, RootState} from "@/types";
 import {computed} from "vue";
 
 interface Props {
   content: Content;
 }
 
-defineProps<Props>();
+const props = defineProps<Props>();
 
 const store = useStore<RootState>();
 
 const emit = defineEmits();
 
-const panels = computed(() => store.getters["panel/panels"])
+const panels = computed(() => store.getters["panel/panels"]);
+const filteredPanels = computed(() => {
+  return panels.value.filter((p: Panel) => p.boardId === props.content.boardId);
+});
 
 const submitForm = (): void => {
   emit("submitForm")
@@ -45,7 +48,7 @@ const submitForm = (): void => {
           v-model="content.value.panelId"
       >
         <option
-            v-for="panel in panels"
+            v-for="panel in filteredPanels"
             :value="panel.id">
           {{ panel.title }}
         </option>
