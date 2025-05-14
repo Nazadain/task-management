@@ -12,13 +12,13 @@ const fetchLogin = async () => {
     await api.post('/register', {
       name: "Nazadain",
       email: "nazadain@gmail.com",
-      password: "NekitPlay123",
-      password_confirmation: "NekitPlay123",
+      password: "Password123",
+      password_confirmation: "Password123",
     });
 
     await api.post("/login", {
       email: "email@email.com",
-      password: "NekitPlay123",
+      password: "Password123",
     });
   } catch (e: any) {
     console.error("Validation error:", e.response?.data);
