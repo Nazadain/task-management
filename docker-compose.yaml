@@ -5,6 +5,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - .:/app
+      - /app/node_modules
     ports:
       - "5000:8080"
     command: ["npm", "run", "serve"]

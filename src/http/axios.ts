@@ -1,11 +1,21 @@
 import axios from "axios";
 
+const getXsrfToken = () => {
+    const match = document.cookie.match(new RegExp("XSRF-TOKEN=([^;]+)"));
+    return match ? decodeURIComponent(match[1]) : "";
+};
+
 const api = axios.create({
-    baseURL: process.env.VUE_APP_API_URL,
+    baseURL: "http://localhost:8000",
     withCredentials: true,
 });
 
-api.defaults.headers.common['Accept']  = "application/json; charset=UTF-8";
-api.defaults.headers.post['Content-Type'] = 'application/json; charset=UTF-8';
+api.interceptors.request.use((config) => {
+    const token = getXsrfToken();
+    if (token) {
+        config.headers["X-XSRF-TOKEN"] = token;
+    }
+    return config;
+});
 
 export default api;
