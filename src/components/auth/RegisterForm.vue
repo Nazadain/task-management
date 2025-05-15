@@ -26,7 +26,7 @@ const fetchRegister = async (): Promise<void> => {
       email: emailRef.value,
       password: passwordRef.value,
     }
-    const resp = await api.post("/api/register", JSON.stringify(newUser));
+    const resp = await api.post("/api/register", newUser);
     console.log(resp.data);
   } catch (e: any) {
     errorMessageRef.value = e.message;

@@ -14,7 +14,7 @@ const fetchLogin = async (): Promise<void> => {
     email: emailRef.value,
     password: passwordRef.value,
   }
-  const resp = await api.post("/api/login", JSON.stringify(userData));
+  const resp = await api.post("/api/login", userData);
   console.log(resp);
 }
 
