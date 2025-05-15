@@ -43,26 +43,29 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-    const authLoading = () => store.getters["authLoading"];
-    const isAuth = () => store.getters["isAuth"];
-
-    if (authLoading()) {
-        const stop = watch(authLoading, (loading) => {
-            if (!loading) {
-                stop();
-                handleAuthCheck();
-            }
-        });
-    } else {
-        handleAuthCheck();
-    }
-
-    function handleAuthCheck() {
-        if (to.meta.requiresAuth && !isAuth()) {
-            next('/login');
+    const check = () => {
+        const isAuth = store.getters["isAuth"];
+        if (to.meta.requiresAuth && !isAuth) {
+            next("/login");
         } else {
             next();
         }
+    };
+
+    const authLoading = store.getters["authLoading"];
+
+    if (authLoading) {
+        const unwatch = watch(
+            () => store.getters["authLoading"],
+            (newVal) => {
+                if (!newVal) {
+                    unwatch();
+                    check();
+                }
+            }
+        );
+    } else {
+        check();
     }
 });
 
