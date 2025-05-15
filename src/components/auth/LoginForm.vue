@@ -7,6 +7,7 @@ import {ref} from "vue";
 import api from "@/http/axios";
 import {User} from "@/types";
 import router from "@/router/router";
+import Cookies from 'js-cookie';
 
 const emit = defineEmits([
   "loginUser"
@@ -24,7 +25,10 @@ const fetchLogin = async (): Promise<void> => {
     const resp = await api.post("/api/auth/login", userData);
     const respData = await resp.data;
 
-    document.cookie = `${respData.authorization.token}; path=/; max-age=3600`;
+    Cookies.set("token", respData.authorization.token, {
+      expires: 1,
+      path: "/",
+    });
 
     const user: User = {
       id: respData.user.id,

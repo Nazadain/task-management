@@ -1,19 +1,4 @@
-<script setup lang="ts">
-
-import {onBeforeMount} from "vue";
-import {useStore} from "vuex";
-import {RootState} from "@/types";
-import axios from "axios";
-
-const store = useStore<RootState>();
-
-onBeforeMount(async () => {
-  const boardResp = await axios.get("/boards.json");
-  const boards = await boardResp.data;
-  store.commit("board/setBoards", boards);
-})
-
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <div class="app">

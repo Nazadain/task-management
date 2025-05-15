@@ -4,6 +4,7 @@ import TopbarContainer from "@/components/navbar/topbar/TopbarContainer.vue";
 import Drawer from "@/components/drawer/Drawer.vue";
 import {ref} from "vue";
 import SidebarContainer from "@/components/navbar/sidebar/SidebarContainer.vue";
+import {Board} from "@/types";
 
 const pageTitle = ref<string>("");
 

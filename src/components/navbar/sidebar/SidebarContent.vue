@@ -19,6 +19,9 @@ const path = computed(() => route.path);
 const logout = (): void => {
   store.commit("setIsAuth", false);
   store.commit("setUser", null);
+
+  document.cookie = ("token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT");
+
   router.push("/");
 }
 

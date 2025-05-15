@@ -6,7 +6,6 @@ import {computed, onMounted} from "vue";
 import Icon from "@/components/UI/Icon.vue";
 import {useRoute} from "vue-router";
 
-const route = useRoute();
 const store = useStore<RootState>();
 const emit = defineEmits([
   "title",
@@ -16,6 +15,9 @@ const boards = computed(() => store.getters["board/boards"]);
 
 onMounted(async () => {
   emit("title", "Доски");
+
+
+
   const response = await fetch("/boards.json");
   const json = await response.json();
 
