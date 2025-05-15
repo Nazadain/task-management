@@ -5,17 +5,36 @@ import {IconName} from "@/assets/icons";
 import AuthForm from "@/components/auth/AuthForm.vue";
 import {ref} from "vue";
 import api from "@/http/axios";
+import {User} from "@/types";
+
+const emit = defineEmits([
+    "loginUser"
+]);
 
 const emailRef = ref<string>("");
 const passwordRef = ref<string>("");
 
 const fetchLogin = async (): Promise<void> => {
-  const userData = {
-    email: emailRef.value,
-    password: passwordRef.value,
+  try {
+    const userData = {
+      email: emailRef.value,
+      password: passwordRef.value,
+    }
+    const resp = await api.post("/api/auth/login", userData);
+    const respData = await resp.data;
+
+    document.cookie = `${respData.authorization.token}; path=/; max-age=3600`;
+
+    const user: User = {
+      id: respData.id,
+      username: respData.name,
+      email: respData.email
+    }
+
+    emit("loginUser", user);
+  } catch (e: any) {
+    console.error(e.message);
   }
-  const resp = await api.post("/api/auth/login", userData);
-  console.log(resp);
 }
 
 </script>

@@ -8,7 +8,6 @@ export interface User {
     id: number;
     username: string;
     email: string;
-    tasks: number[]
 }
 
 export interface Board {

@@ -5,6 +5,12 @@ import AuthForm from "@/components/auth/AuthForm.vue";
 import Icon from "@/components/UI/Icon.vue";
 import {ref} from "vue";
 import api from "@/http/axios";
+import {User} from "@/types";
+import router from "@/router/router";
+
+const emit = defineEmits([
+    "loginUser",
+]);
 
 const usernameRef = ref<string>("");
 const emailRef = ref<string>("");
@@ -18,16 +24,27 @@ const fetchRegister = async (): Promise<void> => {
     if (passwordRef.value !== passwordConfirmRef.value) {
       throw new Error("Пароли не совпадают!");
     }
-    console.log(usernameRef.value);
-    console.log(passwordRef.value);
-    console.log(emailRef.value);
     const newUser = {
       name: usernameRef.value,
       email: emailRef.value,
       password: passwordRef.value,
     }
     const resp = await api.post("/api/auth/register", newUser);
-    console.log(resp.data);
+
+    const respData = await resp.data;
+
+    document.cookie = `${respData.authorization.token}; path=/; max-age=3600`;
+
+    const userData: User = {
+      id: respData.id,
+      username: respData.name,
+      email: respData.email
+    }
+
+    emit("loginUser", userData);
+
+    await router.push("/boards");
+
   } catch (e: any) {
     errorMessageRef.value = e.message;
   }
@@ -103,7 +120,7 @@ const fetchRegister = async (): Promise<void> => {
       />
     </div>
 
-    <div>{{ errorMessageRef.value }}</div>
+    <div>{{ errorMessageRef }}</div>
 
     <div class="form-router">
       Уже есть аккаунт?
