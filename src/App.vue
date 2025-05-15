@@ -1,4 +1,28 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+
+import {useStore} from "vuex";
+import {RootState} from "@/types";
+import Cookies from "js-cookie";
+import {onMounted} from "vue";
+import api from "@/http/axios";
+
+const store = useStore<RootState>();
+
+onMounted(async () => {
+  try {
+    const token: string | undefined = Cookies.get("token");
+    if (!token) {
+      store.commit("setIsAuth", false);
+      return
+    }
+    await api.get("/api/profile");
+    store.commit("setIsAuth", true);
+  } catch (e: any) {
+    store.commit("setIsAuth", false);
+  }
+});
+
+</script>
 
 <template>
   <div class="app">
