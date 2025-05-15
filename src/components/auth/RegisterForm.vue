@@ -3,10 +3,37 @@
 import {IconName} from "@/assets/icons";
 import AuthForm from "@/components/auth/AuthForm.vue";
 import Icon from "@/components/UI/Icon.vue";
+import {ref} from "vue";
+import api from "@/http/axios";
+
+const usernameRef = ref<string>("");
+const emailRef = ref<string>("");
+const passwordRef = ref<string>("");
+const passwordConfirmRef = ref<string>("");
+
+const errorMessageRef = ref<string>("");
+
+const fetchRegister = async (): Promise<void> => {
+  try {
+    if (passwordRef.value !== passwordConfirmRef.value) {
+      throw new Error("Пароли не совпадают!");
+    }
+    const newUser = {
+      username: usernameRef.value,
+      email: emailRef.value,
+      password: passwordRef.value,
+    }
+    const resp = await api.post("/api/register", newUser);
+    console.log(resp.data);
+  } catch (e: any) {
+    errorMessageRef.value = e.message;
+  }
+}
+
 </script>
 
 <template>
-  <auth-form>
+  <auth-form @submit.prevent="fetchRegister">
     <h2>Регистрация</h2>
 
     <div class="form-item">
@@ -20,6 +47,7 @@ import Icon from "@/components/UI/Icon.vue";
           id="username"
           name="username"
           placeholder="Введите имя пользователя"
+          v-model="usernameRef.value"
           required
       />
     </div>
@@ -35,6 +63,7 @@ import Icon from "@/components/UI/Icon.vue";
           id="email"
           name="email"
           placeholder="Введите e-mail"
+          v-model="emailRef.value"
           required
       />
     </div>
@@ -50,6 +79,7 @@ import Icon from "@/components/UI/Icon.vue";
           id="password"
           name="password"
           placeholder="Введите пароль"
+          v-model="passwordRef.value"
           required
       />
     </div>
@@ -65,9 +95,12 @@ import Icon from "@/components/UI/Icon.vue";
           id="password-confirm"
           name="confirmPassword"
           placeholder="Введите пароль"
+          v-model="passwordConfirmRef.value"
           required
       />
     </div>
+
+    <div>{{ errorMessageRef.value }}</div>
 
     <div class="form-router">
       Уже есть аккаунт?
