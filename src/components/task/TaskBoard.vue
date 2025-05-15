@@ -62,6 +62,12 @@ const openForm = (): void => {
 }
 
 onMounted(async () => {
+
+  window.Echo.channel(`board.${props.board.id}`)
+      .listen('panel_created', (e: any) => {
+        console.log(e);
+      });
+
   const panelsResponse = await axios.get('/panels.json')
   const panels = await panelsResponse.data;
   store.commit("panel/setPanels", panels);

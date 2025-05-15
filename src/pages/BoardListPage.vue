@@ -4,7 +4,8 @@ import {useStore} from "vuex";
 import {RootState} from "@/types";
 import {computed, onMounted} from "vue";
 import Icon from "@/components/UI/Icon.vue";
-import {useRoute} from "vue-router";
+import Cookies from "js-cookie";
+import api from "@/http/axios";
 
 const store = useStore<RootState>();
 const emit = defineEmits([
@@ -16,12 +17,9 @@ const boards = computed(() => store.getters["board/boards"]);
 onMounted(async () => {
   emit("title", "Доски");
 
+  const token: string | undefined = Cookies.get("token");
 
-
-  const response = await fetch("/boards.json");
-  const json = await response.json();
-
-  store.commit("board/setBoards", json);
+  const response = await api.get("/user/boards");
 })
 
 </script>

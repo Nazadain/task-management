@@ -3,7 +3,6 @@ import App from "@/App.vue";
 import router from "@/router/router";
 import components from "@/components/UI";
 import store from "@/store";
-import axios from "axios";
 
 const app = createApp(App)
 

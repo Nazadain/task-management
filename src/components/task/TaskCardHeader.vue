@@ -57,6 +57,7 @@ const openEditSidebar = () => {
         Удалить
       </dropdown-btn>
     </dropdown-menu>
+
     <p class="title">{{ title }}</p>
     <div class="kebab-menu">
       <Icon

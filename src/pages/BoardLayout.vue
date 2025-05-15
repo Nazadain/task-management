@@ -4,7 +4,7 @@ import TopbarContainer from "@/components/navbar/topbar/TopbarContainer.vue";
 import Drawer from "@/components/drawer/Drawer.vue";
 import {ref} from "vue";
 import SidebarContainer from "@/components/navbar/sidebar/SidebarContainer.vue";
-import {Board} from "@/types";
+import echo from "@/services/echo";
 
 const pageTitle = ref<string>("");
 
@@ -17,11 +17,11 @@ const setTitle = (title: string): void => {
 <template>
   <drawer/>
   <div class="boards__container">
-    <sidebar-container />
+    <sidebar-container/>
     <div class="boards__body">
       <topbar-container :name="pageTitle"/>
       <router-view v-slot="{Component}">
-        <component :is="Component" @title="setTitle" />
+        <component :is="Component" @title="setTitle"/>
       </router-view>
     </div>
   </div>
