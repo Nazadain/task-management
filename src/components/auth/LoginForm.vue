@@ -3,10 +3,25 @@
 import Icon from "@/components/UI/Icon.vue";
 import {IconName} from "@/assets/icons";
 import AuthForm from "@/components/auth/AuthForm.vue";
+import {ref} from "vue";
+import api from "@/http/axios";
+
+const emailRef = ref<string>("");
+const passwordRef = ref<string>("");
+
+const fetchLogin = async (): Promise<void> => {
+  const userData = {
+    email: emailRef.value,
+    password: passwordRef.value,
+  }
+  const resp = await api.post("/api/login", userData);
+  console.log(resp);
+}
+
 </script>
 
 <template>
-  <auth-form>
+  <auth-form @submit.prevent="fetchLogin">
     <h2>Авторизация</h2>
 
     <div class="form-item">
