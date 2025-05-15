@@ -42,24 +42,24 @@ const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
 });
 
-router.beforeEach(async (to, from, next) => {
-    const isAuth = store.getters.isAuth;
-    const authLoading = store.getters.authLoading;
+router.beforeEach((to, from, next) => {
+    const authLoading = () => store.getters["authLoading"];
+    const isAuth = () => store.getters["isAuth"];
 
-    if (authLoading) {
-        const unwatch = watch(() => authLoading, (newVal) => {
-            if (!newVal) {
-                unwatch();
+    if (authLoading()) {
+        const stop = watch(authLoading, (loading) => {
+            if (!loading) {
+                stop();
                 handleAuthCheck();
             }
-        })
+        });
     } else {
         handleAuthCheck();
     }
 
     function handleAuthCheck() {
-        if (to.meta.requiresAuth && !isAuth) {
-            next({name: "Login"});
+        if (to.meta.requiresAuth && !isAuth()) {
+            next('/login');
         } else {
             next();
         }

@@ -3,12 +3,12 @@
 import {useStore} from "vuex";
 import {RootState} from "@/types";
 import Cookies from "js-cookie";
-import {onBeforeMount} from "vue";
+import {onMounted} from "vue";
 import api from "@/http/axios";
 
 const store = useStore<RootState>();
 
-onBeforeMount(async () => {
+onMounted(async () => {
   try {
     store.commit("setAuthLoading", true);
     console.log("НАЧАЛО ПРОВЕРКИ АВТОРИЗОВАННОСТИ");
