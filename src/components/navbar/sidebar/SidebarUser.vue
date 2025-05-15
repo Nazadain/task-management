@@ -36,7 +36,7 @@ const show = ref<boolean>(false);
       <div
           v-if="user"
           class="user-info">
-        <h3 class="full-name">{{ user.username }}</h3>
+        <h3 class="full-name">{{ user.name }}</h3>
         <p class="email">{{ user.email }}</p>
       </div>
     </div>

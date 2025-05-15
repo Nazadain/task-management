@@ -16,11 +16,18 @@ onMounted(async () => {
     if (!token) {
       throw new Error("Token not found.");
     }
-    await api.get("/api/profile", {
+    const response = await api.get("/api/profile", {
       headers: {"Authorization": `Bearer ${token}`},
     });
 
+    const user = {
+      id: response.data.id,
+      name: response.data.name,
+      email: response.data.email,
+    }
+
     store.commit("setIsAuth", true);
+    store.commit("setUser", user);
   } catch (e: any) {
     store.commit("setIsAuth", false);
   } finally {

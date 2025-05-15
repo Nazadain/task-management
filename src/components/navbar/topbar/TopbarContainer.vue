@@ -7,6 +7,9 @@ interface Props {
 }
 
 const props = defineProps<Props>();
+const emit = defineEmits([
+    "openAddBoard",
+]);
 
 </script>
 
@@ -16,7 +19,10 @@ const props = defineProps<Props>();
       <Icon name="burger" :size="30"/>
     </div>
     <h1 class="page-name">{{ name }}</h1>
-    <div class="add__board-btn">
+    <div
+        class="add__board-btn"
+        @click="emit('openAddBoard')"
+    >
       <Icon name="plus" :size="16" color="#6F72FF"/>
       Доска
     </div>
