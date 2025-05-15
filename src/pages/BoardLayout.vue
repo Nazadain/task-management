@@ -4,9 +4,10 @@ import TopbarContainer from "@/components/navbar/topbar/TopbarContainer.vue";
 import Drawer from "@/components/drawer/Drawer.vue";
 import {ref} from "vue";
 import SidebarContainer from "@/components/navbar/sidebar/SidebarContainer.vue";
-import echo from "@/services/echo";
+import TaskBoardAdd from "@/components/task/TaskBoardAdd.vue";
 
 const pageTitle = ref<string>("");
+const isTaskBoardAddActive = ref<boolean>(false);
 
 const setTitle = (title: string): void => {
   pageTitle.value = title;
@@ -17,11 +18,18 @@ const setTitle = (title: string): void => {
 <template>
   <drawer/>
   <div class="boards__container">
+    <task-board-add
+        v-if="isTaskBoardAddActive"
+    />
     <sidebar-container/>
     <div class="boards__body">
       <topbar-container :name="pageTitle"/>
       <router-view v-slot="{Component}">
-        <component :is="Component" @title="setTitle"/>
+        <component
+            :is="Component"
+            @title="setTitle"
+            @openAddBoard="isTaskBoardAddActive = true"
+        />
       </router-view>
     </div>
   </div>

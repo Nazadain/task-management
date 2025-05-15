@@ -4,12 +4,11 @@ import {useStore} from "vuex";
 import {RootState} from "@/types";
 import {computed, onMounted} from "vue";
 import Icon from "@/components/UI/Icon.vue";
-import Cookies from "js-cookie";
-import api from "@/http/axios";
 
 const store = useStore<RootState>();
 const emit = defineEmits([
   "title",
+  "openAddBoard"
 ]);
 
 const boards = computed(() => store.getters["board/boards"]);
@@ -43,7 +42,10 @@ onMounted(async () => {
             </div>
           </header>
         </router-link>
-        <div class="board-element add_item-btn">
+        <div
+            class="board-element add_item-btn"
+            @click="emit('openAddBoard')"
+        >
           <Icon name="plus" :size="20"/>
         </div>
       </div>
