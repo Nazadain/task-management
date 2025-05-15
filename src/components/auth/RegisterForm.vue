@@ -18,12 +18,15 @@ const fetchRegister = async (): Promise<void> => {
     if (passwordRef.value !== passwordConfirmRef.value) {
       throw new Error("Пароли не совпадают!");
     }
+    console.log(usernameRef.value);
+    console.log(passwordRef.value);
+    console.log(emailRef.value);
     const newUser = {
       name: usernameRef.value,
       email: emailRef.value,
       password: passwordRef.value,
     }
-    const resp = await api.post("/api/register", newUser);
+    const resp = await api.post("/api/register", JSON.stringify(newUser));
     console.log(resp.data);
   } catch (e: any) {
     errorMessageRef.value = e.message;
