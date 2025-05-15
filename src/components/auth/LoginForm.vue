@@ -6,9 +6,10 @@ import AuthForm from "@/components/auth/AuthForm.vue";
 import {ref} from "vue";
 import api from "@/http/axios";
 import {User} from "@/types";
+import router from "@/router/router";
 
 const emit = defineEmits([
-    "loginUser"
+  "loginUser"
 ]);
 
 const emailRef = ref<string>("");
@@ -32,6 +33,8 @@ const fetchLogin = async (): Promise<void> => {
     }
 
     emit("loginUser", user);
+
+    await router.push("/boards")
   } catch (e: any) {
     console.error(e.message);
   }
@@ -45,7 +48,7 @@ const fetchLogin = async (): Promise<void> => {
 
     <div class="form-item">
       <label for="email">
-        <Icon :name="IconName.MAIL" />
+        <Icon :name="IconName.MAIL"/>
         Email</label>
       <input
           type="text"
@@ -60,7 +63,7 @@ const fetchLogin = async (): Promise<void> => {
 
     <div class="form-item">
       <label for="password">
-        <Icon :name="IconName.LOCK" />
+        <Icon :name="IconName.LOCK"/>
         Пароль
       </label>
       <input
@@ -86,7 +89,8 @@ const fetchLogin = async (): Promise<void> => {
     <button
         type="submit"
         class="submit-btn"
-    >Войти</button>
+    >Войти
+    </button>
   </auth-form>
 </template>
 
