@@ -3,13 +3,14 @@
 import {useStore} from "vuex";
 import {RootState} from "@/types";
 import Cookies from "js-cookie";
-import {onBeforeMount, onBeforeUnmount, onMounted} from "vue";
+import {onBeforeMount} from "vue";
 import api from "@/http/axios";
 
 const store = useStore<RootState>();
 
 onBeforeMount(async () => {
   try {
+    store.commit("setAuthLoading", true);
     console.log("НАЧАЛО ПРОВЕРКИ АВТОРИЗОВАННОСТИ");
     const token: string | undefined = Cookies.get("token");
     if (!token) {
@@ -22,12 +23,14 @@ onBeforeMount(async () => {
       headers: {"Authorization": `Bearer ${token}`},
     });
     console.log("ТОКЕН ВАЛИДНЫЙ")
+
     store.commit("setIsAuth", true);
   } catch (e: any) {
     console.log("ТОКЕН НЕ ВАЛИДНЫЙ")
     console.error(e);
     store.commit("setIsAuth", false);
   }
+  store.commit("setAuthLoading", false);
 });
 
 </script>

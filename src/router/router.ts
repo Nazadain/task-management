@@ -8,6 +8,7 @@ import store from "@/store";
 import StartPage from "@/pages/StartPage.vue";
 import LoginForm from "@/components/auth/LoginForm.vue";
 import RegisterForm from "@/components/auth/RegisterForm.vue";
+import {watch} from "vue";
 
 const routes = [
     {
@@ -41,13 +42,30 @@ const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
     const isAuth = store.getters.isAuth;
-    if (to.meta.requiresAuth && !isAuth) {
-        next({name: "Login"});
+    const authLoading = store.getters.authLoading;
+
+    if (authLoading) {
+        const unwatch = watch(() => authLoading, (newVal) => {
+            if (!newVal) {
+                unwatch();
+                handleAuthCheck();
+            }
+        })
     } else {
-        next();
+        handleAuthCheck();
+    }
+
+    function handleAuthCheck() {
+        if (to.meta.requiresAuth && !isAuth) {
+            next({name: "Login"});
+        } else {
+            next();
+        }
     }
 });
+
+
 
 export default router;
