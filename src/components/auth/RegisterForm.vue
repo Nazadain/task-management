@@ -36,9 +36,9 @@ const fetchRegister = async (): Promise<void> => {
     document.cookie = `${respData.authorization.token}; path=/; max-age=3600`;
 
     const userData: User = {
-      id: respData.id,
-      username: respData.name,
-      email: respData.email
+      id: respData.user.id,
+      username: respData.user.name,
+      email: respData.user.email
     }
 
     emit("loginUser", userData);

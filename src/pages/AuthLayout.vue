@@ -14,8 +14,6 @@ const isLogin = computed<boolean>(() => route.path === "/login");
 const isRegister = computed<boolean>(() => route.path === "/register");
 
 const setUser = (user: User): void => {
-  console.log("ФУНКЦИЯ SET_USER НАЧАЛА РАБОТУ");
-  console.log(`ПОЛЬЗОВАТЕЛЬ: ${user}`)
   store.commit("setIsAuth", true);
   store.commit("setUser", user);
 }

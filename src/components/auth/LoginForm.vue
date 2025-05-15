@@ -27,9 +27,9 @@ const fetchLogin = async (): Promise<void> => {
     document.cookie = `${respData.authorization.token}; path=/; max-age=3600`;
 
     const user: User = {
-      id: respData.id,
-      username: respData.name,
-      email: respData.email
+      id: respData.user.id,
+      username: respData.user.name,
+      email: respData.user.email
     }
 
     emit("loginUser", user);
