@@ -3,6 +3,7 @@ import DropdownMenu from "@/components/UI/DropdownMenu.vue";
 import Icon from "@/components/UI/Icon.vue";
 import {computed, ref} from "vue";
 import DropdownBtn from "@/components/UI/DropdownBtn.vue";
+import {IconName} from "@/assets/icons";
 
 interface Props {
   title: string;
@@ -59,7 +60,7 @@ const openEditSidebar = () => {
     <p class="title">{{ title }}</p>
     <div class="kebab-menu">
       <Icon
-          name="kebab"
+          :name="IconName.KEBAB"
           :size="exactIconSize"
           @click.stop="show = !show"
       />

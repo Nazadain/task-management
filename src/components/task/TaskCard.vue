@@ -9,6 +9,7 @@ import TaskCardProgress from "@/components/task/TaskCardProgress.vue";
 import TaskCardHeader from "@/components/task/TaskCardHeader.vue";
 import {useStore} from "vuex";
 import {Content} from "@/store/drawer";
+import {IconName} from "@/assets/icons";
 
 interface Props {
   task: Task
@@ -92,7 +93,7 @@ const deleteTask = (): void => {
         <task-card-tag
             v-if="props.task.deadline">
           <div class="icon">
-            <Icon name="calendar" :size="20"/>
+            <Icon :name="IconName.CALENDAR" :size="20"/>
           </div>
           <p class="deadline-data">
             {{ formattedDeadline }}
@@ -101,7 +102,7 @@ const deleteTask = (): void => {
 
         <task-card-tag v-if="props.task.priority !== undefined">
           <div class="icon">
-            <Icon name="clock" :size="20"/>
+            <Icon :name="IconName.CLOCK" :size="20"/>
           </div>
           <p class="priority-data">
             {{ shortPriorityName }}

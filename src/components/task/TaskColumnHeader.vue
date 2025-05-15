@@ -4,8 +4,7 @@ import DropdownMenu from "@/components/UI/DropdownMenu.vue";
 import Icon from "@/components/UI/Icon.vue";
 import {ref} from "vue";
 import DropdownBtn from "@/components/UI/DropdownBtn.vue";
-import {useStore} from "vuex";
-import {RootState} from "@/types";
+import {IconName} from "@/assets/icons";
 
 interface Props {
   color?: string,
@@ -66,7 +65,7 @@ const openEditSidebar = () => {
         class="icon"
         @click.stop="show = !show"
     >
-      <Icon name="kebab" :size="24"/>
+      <Icon :name="IconName.KEBAB" :size="24"/>
     </div>
   </header>
 </template>

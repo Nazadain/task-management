@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import {computed} from "vue";
-import {icons} from "@/assets/icons";
+import {IconName, icons} from "@/assets/icons";
 
 interface Props {
-  name: string;
+  name: IconName;
   size?: number;
   color?: string;
 }

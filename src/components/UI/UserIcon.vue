@@ -1,6 +1,7 @@
 <script setup lang="ts">
 
 import Icon from "@/components/UI/Icon.vue";
+import {IconName} from "@/assets/icons";
 
 interface Props {
   size?: number;
@@ -18,7 +19,7 @@ const props = withDefaults(defineProps<Props>(), {
       :style="`width: ${size * 2}px; height: ${size * 2}px;`"
   >
     <Icon
-        name="user"
+        :name="IconName.USER"
         :size="size"
         color="#90A4AE"
     />
