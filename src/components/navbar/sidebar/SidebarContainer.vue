@@ -1,7 +1,8 @@
 <script setup lang="ts">
-
-
 import SidebarContent from "@/components/navbar/sidebar/SidebarContent.vue";
+
+
+
 </script>
 
 <template>

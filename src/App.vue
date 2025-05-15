@@ -11,22 +11,18 @@ const store = useStore<RootState>();
 onMounted(async () => {
   try {
     store.commit("setAuthLoading", true);
-    console.log("НАЧАЛО ПРОВЕРКИ АВТОРИЗОВАННОСТИ");
+
     const token: string | undefined = Cookies.get("token");
     if (!token) {
-      console.log("ТОКЕН НЕ НАЙДЕН");
       store.commit("setIsAuth", false);
       return
     }
-    console.log("ТОКЕН УСПЕШНО НАЙДЕН");
     await api.get("/api/profile", {
       headers: {"Authorization": `Bearer ${token}`},
     });
-    console.log("ТОКЕН ВАЛИДНЫЙ")
 
     store.commit("setIsAuth", true);
   } catch (e: any) {
-    console.log("ТОКЕН НЕ ВАЛИДНЫЙ")
     console.error(e);
     store.commit("setIsAuth", false);
   }

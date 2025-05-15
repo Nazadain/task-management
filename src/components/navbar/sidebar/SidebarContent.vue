@@ -2,7 +2,7 @@
 
 import {Board, RootState, User} from "@/types";
 import {useStore} from "vuex";
-import {computed} from "vue";
+import {computed, onBeforeMount} from "vue";
 import SidebarUser from "@/components/navbar/sidebar/SidebarUser.vue";
 import SidebarSearch from "@/components/navbar/sidebar/SidebarSearch.vue";
 import SidebarNav from "@/components/navbar/sidebar/SidebarNav.vue";

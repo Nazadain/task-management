@@ -16,15 +16,6 @@ const boards = computed(() => store.getters["board/boards"]);
 
 onMounted(async () => {
   emit("title", "Доски");
-
-  const token: string | undefined = Cookies.get("token");
-
-  const response = await api.get("/api/boards", {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  const json = await response.data;
-
-  console.log(json);
 });
 
 </script>
