@@ -3,12 +3,12 @@
 import {useStore} from "vuex";
 import {RootState} from "@/types";
 import Cookies from "js-cookie";
-import {onMounted} from "vue";
+import {onBeforeUnmount, onMounted} from "vue";
 import api from "@/http/axios";
 
 const store = useStore<RootState>();
 
-onMounted(async () => {
+onBeforeUnmount(async () => {
   try {
     const token: string | undefined = Cookies.get("token");
     if (!token) {
