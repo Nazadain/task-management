@@ -28,7 +28,7 @@ const logout = (): void => {
 </script>
 
 <template>
-  <div class="sidebar__content" v-if="boards.length">
+  <div class="sidebar__content">
     <sidebar-user
         :user="user"
         @logout="logout"
