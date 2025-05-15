@@ -15,7 +15,9 @@ onBeforeUnmount(async () => {
       store.commit("setIsAuth", false);
       return
     }
-    await api.get("/api/profile");
+    await api.get("/api/profile", {
+      headers: {"Authorization": `Bearer ${token}`},
+    });
     store.commit("setIsAuth", true);
   } catch (e: any) {
     store.commit("setIsAuth", false);
