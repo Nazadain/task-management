@@ -34,6 +34,7 @@ const fetchLogin = async (): Promise<void> => {
           id="email"
           name="email"
           placeholder="Введите e-mail"
+          v-model="emailRef"
           required
       />
     </div>
@@ -49,6 +50,7 @@ const fetchLogin = async (): Promise<void> => {
           id="password"
           name="password"
           placeholder="Введите пароль"
+          v-model="passwordRef"
           required
       />
     </div>
