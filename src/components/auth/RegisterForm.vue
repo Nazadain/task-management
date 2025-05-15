@@ -47,7 +47,7 @@ const fetchRegister = async (): Promise<void> => {
           id="username"
           name="username"
           placeholder="Введите имя пользователя"
-          v-model="usernameRef.value"
+          v-model="usernameRef"
           required
       />
     </div>
@@ -63,7 +63,7 @@ const fetchRegister = async (): Promise<void> => {
           id="email"
           name="email"
           placeholder="Введите e-mail"
-          v-model="emailRef.value"
+          v-model="emailRef"
           required
       />
     </div>
@@ -79,7 +79,7 @@ const fetchRegister = async (): Promise<void> => {
           id="password"
           name="password"
           placeholder="Введите пароль"
-          v-model="passwordRef.value"
+          v-model="passwordRef"
           required
       />
     </div>
@@ -95,7 +95,7 @@ const fetchRegister = async (): Promise<void> => {
           id="password-confirm"
           name="confirmPassword"
           placeholder="Введите пароль"
-          v-model="passwordConfirmRef.value"
+          v-model="passwordConfirmRef"
           required
       />
     </div>
