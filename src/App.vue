@@ -14,8 +14,7 @@ onMounted(async () => {
 
     const token: string | undefined = Cookies.get("token");
     if (!token) {
-      store.commit("setIsAuth", false);
-      return
+      throw new Error("Token not found.");
     }
     await api.get("/api/profile", {
       headers: {"Authorization": `Bearer ${token}`},
@@ -23,10 +22,10 @@ onMounted(async () => {
 
     store.commit("setIsAuth", true);
   } catch (e: any) {
-    console.error(e);
     store.commit("setIsAuth", false);
+  } finally {
+    store.commit("setAuthLoading", false);
   }
-  store.commit("setAuthLoading", false);
 });
 
 </script>
