@@ -19,7 +19,7 @@ const fetchRegister = async (): Promise<void> => {
       throw new Error("Пароли не совпадают!");
     }
     const newUser = {
-      username: usernameRef.value,
+      name: usernameRef.value,
       email: emailRef.value,
       password: passwordRef.value,
     }
