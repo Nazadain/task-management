@@ -7,13 +7,20 @@ import SidebarUser from "@/components/navbar/sidebar/SidebarUser.vue";
 import SidebarSearch from "@/components/navbar/sidebar/SidebarSearch.vue";
 import SidebarNav from "@/components/navbar/sidebar/SidebarNav.vue";
 import {useRoute} from "vue-router";
+import router from "@/router/router";
 
 const store = useStore<RootState>();
-const router = useRoute();
+const route = useRoute();
 
 const user = computed<User | null>(() => store.getters["user"]);
 const boards = computed<Board[] | []>(() => store.getters["board/boards"]);
-const path = computed(() => router.path);
+const path = computed(() => route.path);
+
+const logout = (): void => {
+  store.commit("setIsAuth", false);
+  store.commit("setUser", null);
+  router.push("/");
+}
 
 </script>
 
@@ -21,8 +28,9 @@ const path = computed(() => router.path);
   <div class="sidebar__content" v-if="boards.length">
     <sidebar-user
         :user="user"
+        @logout="logout"
     />
-    <sidebar-search />
+    <sidebar-search/>
     <sidebar-nav
         :path="path"
         :boards="boards"

@@ -41,13 +41,13 @@ const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
 });
 
-// router.beforeEach((to, from, next) => {
-//     const isAuth = store.getters.isAuth;
-//     if (to.meta.requiresAuth && !isAuth) {
-//         next({name: "Login"});
-//     } else {
-//         next();
-//     }
-// });
+router.beforeEach((to, from, next) => {
+    const isAuth = store.getters.isAuth;
+    if (to.meta.requiresAuth && !isAuth) {
+        next({name: "Login"});
+    } else {
+        next();
+    }
+});
 
 export default router;

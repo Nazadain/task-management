@@ -11,6 +11,11 @@ interface Props {
 }
 
 defineProps<Props>();
+
+const emit = defineEmits([
+    "logout"
+]);
+
 const show = ref<boolean>(false);
 
 </script>
@@ -19,13 +24,19 @@ const show = ref<boolean>(false);
   <div class="user__container">
     <dropdown-menu :show="show" @click="show=false">
       <dropdown-btn icon="settings">Настройки</dropdown-btn>
+      <dropdown-btn
+          icon="logout"
+          @click="emit('logout')"
+      >
+        Выйти
+      </dropdown-btn>
     </dropdown-menu>
     <div class="user__profile" @click.stop="show=true">
       <UserIcon :size="20"/>
       <div
           v-if="user"
           class="user-info">
-        <h3 class="full-name">{{ user.firstName }} {{ user.lastName }}</h3>
+        <h3 class="full-name">{{ user.username }}</h3>
         <p class="email">{{ user.email }}</p>
       </div>
     </div>
