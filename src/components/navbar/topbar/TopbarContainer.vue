@@ -1,6 +1,11 @@
 <script setup lang="ts">
 
 import Icon from "@/components/UI/Icon.vue";
+import {useRoute} from "vue-router";
+import {computed} from "vue";
+import {IconName} from "@/assets/icons";
+import {useStore} from "vuex";
+import {RootState} from "@/types";
 
 interface Props {
   name: string;
@@ -9,7 +14,14 @@ interface Props {
 const props = defineProps<Props>();
 const emit = defineEmits([
     "openAddBoard",
+    "openEditBoard",
 ]);
+
+const store = useStore<RootState>();
+const route = useRoute();
+
+const isBoardPage = computed<boolean>(() => route.path.includes("/boards/"));
+const board = computed(() => store.getters["board/board"]);
 
 </script>
 
@@ -18,7 +30,20 @@ const emit = defineEmits([
     <div class="burger-btn">
       <Icon name="burger" :size="30"/>
     </div>
-    <h1 class="page-name">{{ name }}</h1>
+    <div class="title">
+      <h1 class="page-name">{{ name }}</h1>
+      <div
+          v-if="isBoardPage"
+          class="settings_icon"
+          @click="emit('openEditBoard', board)"
+      >
+        <Icon
+            :name="IconName.SETTINGS"
+            :size="18"
+        />
+      </div>
+    </div>
+
     <div
         class="add__board-btn"
         @click="emit('openAddBoard')"
@@ -42,6 +67,17 @@ const emit = defineEmits([
   border-bottom-style: solid;
   background: #fff;
   z-index: 1000;
+}
+
+.topbar__container .title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.topbar__container .title .settings_icon {
+  cursor: pointer;
 }
 
 .topbar__container .page-name {

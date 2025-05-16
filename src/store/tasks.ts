@@ -22,12 +22,15 @@ export default {
 
             Object.assign(task, updatedTask);
         },
-        reorderTasks(state: TasksState, tasks: Task[]): void {
-            state.tasks = [...state.tasks.filter(
-                (oldTask: Task) =>
-                    !tasks.some((newTask: Task) =>
-                        oldTask.id === newTask.id)),
-                ...tasks];
+        reorderTasks(state: TasksState, tasks: Task[]) {
+            tasks.forEach(newTask => {
+                const index = state.tasks.findIndex(t => t.id === newTask.id);
+                if (index !== -1) {
+                    state.tasks.splice(index, 1, newTask);
+                } else {
+                    state.tasks.push(newTask);
+                }
+            });
         },
         addTask(state: TasksState, newTask: Task): void {
             state.tasks.unshift(newTask);

@@ -22,6 +22,9 @@ export default {
         addBoard(state: BoardState, board: Board): void {
             state.boards.push(board);
         },
+        updateBoard(state: BoardState, board: Board): void {
+
+        },
         removeBoard(state: BoardState, board: Board): void {
             state.boards.splice(state.boards.indexOf(board), 1);
         }
@@ -31,11 +34,13 @@ export default {
         board: (state: BoardState) => state.board,
     },
     actions: {
-        async fetchBoard({ commit, dispatch }: any, boardId: number) {
+        async fetchBoard({commit, dispatch}: any, boardId: number) {
             const response = await api.get(`/api/boards/${boardId}`);
             const boardData: Board = response.data;
 
-            const panels = boardData.panels;
+            const panels = boardData.panels
+                .sort((p1: Panel, p2: Panel) =>
+                    p1.position - p2.position);
 
             const allTasks = boardData.panels.flatMap((panel: Panel) =>
                 (panel.tasks || []).map((task: Task) => ({
@@ -43,8 +48,8 @@ export default {
                     panel_id: panel.id,
                 }))
             );
-            dispatch("panel/setPanels", panels, { root: true });
-            dispatch("task/setTasks", allTasks, { root: true });
+            dispatch("panel/setPanels", panels, {root: true});
+            dispatch("task/setTasks", allTasks, {root: true});
 
             commit("setBoard", boardData);
         }

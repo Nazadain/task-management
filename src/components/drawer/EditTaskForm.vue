@@ -42,7 +42,7 @@ const submitForm = (): void => {
       <select
           id="status"
           name="status"
-          v-model="content.value.parentId"
+          v-model="content.value.panel_id"
       >
         <option
             v-for="panel in panels"

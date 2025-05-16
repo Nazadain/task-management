@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {Panel, Task, User} from "@/types";
 import TaskCard from "@/components/task/TaskCard.vue";
-import {computed, onMounted, ref} from "vue";
+import {computed, onMounted, ref, watch} from "vue";
 import TaskColumnHeader from "@/components/task/TaskColumnHeader.vue";
 import AddForm from "@/components/UI/AddForm.vue";
 import {Content} from "@/store/drawer";
@@ -31,30 +31,48 @@ const emit = defineEmits([
 
 const isFormOpen = ref<boolean>(false);
 const isDragDisabled = computed(() => window.innerWidth < 768);
-const filteredTasks = computed(() => {
-  return props.tasks.filter((t: Task) => t.panel_id === props.panel.id);
-})
+const columnTasks = ref<Task[]>([]);
 
+const updateColumnTasks = () => {
+  columnTasks.value = props.tasks
+      .filter(t => t.panel_id === props.panel.id)
+      .sort((a, b) => a.position - b.position);
+};
 
-const onDragChange = (e: any) => {
-  if (e.added) {
-    const movedTask = {
-      ...e.added.element,
-      panel_id: props.panel.id
+const onDragChange = (evt: any) => {
+  if (evt.added) {
+    const movedTask = evt.added.element;
+
+    // movedTask.panel_id всё ещё старый — обновим его на текущий panel.id
+    movedTask.panel_id = props.panel.id;
+
+    const index = evt.added.newIndex;
+    const taskList = columnTasks.value;
+
+    const beforeTask = taskList[index - 1] ?? null;
+    const afterTask = taskList[index + 1] ?? null;
+
+    const payload = {
+      before: beforeTask?.id ?? null,
+      after: afterTask?.id ?? null,
+      panel_id: props.panel.id,
     };
-    emit("updateTask", movedTask);
-  }
 
-  const updatedTasks = [...props.tasks];
-  emit("updateTasksOrder", updatedTasks);
-}
+    emit("updateTasksOrder", {
+      id: movedTask.id,
+      newTasks: taskList,
+      payload,
+    });
+  }
+};
 const addTask = (title: string): void => {
   const newTask: Task = {
-    id: Date.now(),
+    id: -1,
     title: title,
     progress: 0,
     deadline: undefined,
     priority: undefined,
+    position: 0,
     panel_id: props.panel.id,
   }
   emit("addTask", newTask);
@@ -86,9 +104,14 @@ const openTaskSidebar = (content: Content): void => {
 const users = ref<User[]>([]);
 
 onMounted(async () => {
+  updateColumnTasks();
   const response = await fetch("/users.json");
   users.value = await response.json();
-})
+});
+
+watch(() => [props.tasks, props.panel.id], () => {
+  updateColumnTasks();
+}, {immediate: true});
 
 </script>
 
@@ -113,13 +136,13 @@ onMounted(async () => {
 
     <VueDraggableNext
         class="board-list__container"
-        :list="filteredTasks"
+        :list="columnTasks"
         :disabled="isDragDisabled"
         group="tasks"
         @change="onDragChange"
     >
       <task-card
-          v-for="task in filteredTasks"
+          v-for="task in columnTasks"
           :task="task"
           :panelId="panel.id"
           :color="panel.colour"

@@ -41,7 +41,7 @@ const fetchRegister = async (): Promise<void> => {
 
     const userData: User = {
       id: respData.user.id,
-      username: respData.user.name,
+      name: respData.user.name,
       email: respData.user.email
     }
 

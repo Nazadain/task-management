@@ -1,82 +1,29 @@
 <script setup lang="ts">
-import {Board} from "@/types";
-import {ref} from "vue";
+
+import {IconName} from "@/assets/icons";
+import Icon from "@/components/UI/Icon.vue";
 
 const emit = defineEmits([
-    "create",
-    "close",
+    "close"
 ]);
-
-const title = ref<string>("");
-const description = ref<string>("");
-const isPrivate = ref<boolean>(false);
-
-const onCreate = () => {
-  const board = {
-    title: title.value,
-    description: description.value,
-    is_private: isPrivate.value,
-  }
-  emit("create", board);
-}
-
 </script>
 
 <template>
   <div class="board-add__wrapper">
     <div class="board-add_container">
 
-      <button class="close_modal" @click="emit('close')">X</button>
-
-      <form
-          class="add_form"
-          @submit.prevent="onCreate"
+      <div
+          class="close_modal"
+          @click="emit('close')"
       >
-        <h2>Новая доска</h2>
-
-        <div class="form-item">
-          <label for="title">Название</label>
-          <input
-              id="title"
-              class="form-input"
-              type="text"
-              name="title"
-              placeholder="Введите название"
-              v-model="title"
-          />
-        </div>
-
-        <div class="form-item">
-          <label for="description">Описание</label>
-          <textarea
-              id="description"
-              class="form-input"
-              rows="4"
-              placeholder="Введите описание"
-              v-model="description"
-          ></textarea>
-        </div>
-
-        <div class="form-item checkbox">
-          <label for="isPrivate">Приватная</label>
-          <label class="switch">
-            <input
-                id="isPrivate"
-                type="checkbox"
-                name="isPrivate"
-                v-model="isPrivate"
-            />
-            <span class="slider"></span>
-          </label>
-        </div>
-
-        <button class="submit-btn">Создать доску</button>
-      </form>
+        <Icon :name="IconName.CROSS"/>
+      </div>
+      <slot></slot>
     </div>
   </div>
 </template>
 
-<style scoped>
+<style>
 .board-add__wrapper {
   position: absolute;
   display: flex;
@@ -111,16 +58,8 @@ const onCreate = () => {
   width: 25px;
   height: 25px;
   border-radius: 100%;
-  box-shadow: 0 0 4px 0 #90A4AE90;
-  background: #FFFFFF;
-  border: none;
-  outline: none;
   transition: 0.2s;
   cursor: pointer;
-}
-
-.board-add_container .close_modal:hover {
-  box-shadow: 0 0 4px 0 #90A4AEDD;
 }
 
 .add_form {
@@ -182,14 +121,19 @@ const onCreate = () => {
   background-color: #ccc;
   transition: 0.4s;
   border-radius: 34px;
-  top: 0; left: 0; right: 0; bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 
 .slider:before {
   position: absolute;
   content: "";
-  height: 16px; width: 16px;
-  left: 2px; bottom: 2px;
+  height: 16px;
+  width: 16px;
+  left: 2px;
+  bottom: 2px;
   background-color: white;
   transition: 0.4s;
   border-radius: 50%;

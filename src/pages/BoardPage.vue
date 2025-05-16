@@ -3,16 +3,20 @@ import TaskBoard from "@/components/task/TaskBoard.vue";
 import {useRoute} from "vue-router";
 import {computed, onBeforeMount, onMounted, watch} from "vue";
 import {useStore} from "vuex";
-import {Board, RootState} from "@/types";
+import {Board, Panel, RootState} from "@/types";
 import echo from "@/services/echo";
 
 const route = useRoute();
 const emit = defineEmits(["title"]);
 const store = useStore<RootState>();
 
-const id = computed(() => Number(route.params.id));
+const id = computed<Number>(() => Number(route.params.id));
 const board = computed<Board>(() => store.getters["board/board"]);
-const panels = computed(() => store.getters["panel/panels"]);
+const panels = computed<Panel[]>(() => store.getters["panel/panels"]);
+
+const movePanel = (data: any) => {
+  store.commit("panel/updatePanel");
+}
 
 onBeforeMount(async () => {
   await store.dispatch("board/fetchBoard", id.value);
@@ -23,10 +27,10 @@ watch(id, async (newId) => {
 });
 
 onMounted(() => {
-  echo.private(`board.${id.value}`)
-      .listen('.panel_created', (e: any) => {
-        console.log(`ПАНЕЛЬ СОЗДАНА:`, e);
-      });
+  // echo.private(`board.${id.value}`)
+  //     .listen('.panel_created', (e: any) => {
+  //       console.log(`ПАНЕЛЬ СОЗДАНА:`, e);
+  //     });
 });
 
 watch(board, (newBoard) => {
@@ -43,6 +47,7 @@ watch(board, (newBoard) => {
         :board="board"
         :boardId="id"
         :panels="panels"
+        @movePanel="movePanel"
     />
   </div>
 </template>

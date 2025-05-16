@@ -16,12 +16,13 @@ const emit = defineEmits({});
 
 const addTask = () => {
   const newTask : Task = {
-    id: Date.now(),
+    id: -1,
     title: newTaskText.value,
     deadline: undefined,
     priority: undefined,
     progress: 0,
-    panelId: -1
+    position: -1,
+    panel_id: -1
   }
   emit("addTask", newTask);
   newTaskText.value = "";

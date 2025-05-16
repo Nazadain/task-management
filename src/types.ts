@@ -6,7 +6,7 @@ import {BoardState} from "@/store/boards";
 
 export interface User {
     id: number;
-    username: string;
+    name: string;
     email: string;
 }
 
@@ -33,6 +33,7 @@ export interface Task {
     deadline?: string | null;
     priority?: number | null;
     progress: number;
+    position: number;
     panel_id: number;
 }
 

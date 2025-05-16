@@ -23,17 +23,17 @@ const fetchLogin = async (): Promise<void> => {
       password: passwordRef.value,
     }
     const resp = await api.post("/api/auth/login", userData);
-    const respData = await resp.data;
+    const data = await resp.data;
 
-    Cookies.set("token", respData.authorization.token, {
+    Cookies.set("token", data.authorization.token, {
       expires: 1,
       path: "/",
     });
 
     const user: User = {
-      id: respData.user.id,
-      username: respData.user.name,
-      email: respData.user.email
+      id: data.user.id,
+      name: data.user.name,
+      email: data.user.email
     }
 
     emit("loginUser", user);

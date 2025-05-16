@@ -4,16 +4,20 @@ import TopbarContainer from "@/components/navbar/topbar/TopbarContainer.vue";
 import Drawer from "@/components/drawer/Drawer.vue";
 import {onBeforeMount, ref} from "vue";
 import SidebarContainer from "@/components/navbar/sidebar/SidebarContainer.vue";
-import TaskBoardAdd from "@/components/task/TaskBoardAdd.vue";
+import TaskBoardAdd from "@/components/task/modal/TaskBoardAdd.vue";
 import api from "@/http/axios";
 import Cookies from "js-cookie";
 import {Board, RootState} from "@/types";
 import {useStore} from "vuex";
+import TaskBoardEdit from "@/components/task/modal/TaskBoardEdit.vue";
+import {useRoute} from "vue-router";
 
 const store = useStore<RootState>();
+const route = useRoute();
 
 const pageTitle = ref<string>("");
 const isTaskBoardAddActive = ref<boolean>(false);
+const isTaskBoardEditActive = ref<boolean>(false);
 
 const setTitle = (title: string): void => {
   pageTitle.value = title;
@@ -24,8 +28,13 @@ const openAddBoard = (): void => {
 const closeAddBoard = (): void => {
   isTaskBoardAddActive.value = false;
 }
-const createBoard = async (board: Object): Promise<void> => {
-  console.log(board);
+const openEditBoard = (): void => {
+  isTaskBoardEditActive.value = true;
+}
+const closeEditBoard = (): void => {
+  isTaskBoardEditActive.value = false;
+}
+const createBoard = async (board: Board): Promise<void> => {
   const response = await api.post("/api/boards", board, {
     headers: {
       "authorization": `Bearer ${Cookies.get("token")}`,
@@ -44,6 +53,12 @@ const createBoard = async (board: Object): Promise<void> => {
 
   store.commit("board/addBoard", newBoard);
   closeAddBoard();
+}
+const editBoard = async (board: Board): Promise<void> => {
+  board.id = Number(route.params.id);
+  await api.patch(`/api/boards/${board.id}`, board, {
+    headers: {"Authorization": `Bearer ${Cookies.get("token")}`}
+  });
 }
 
 onBeforeMount(async () => {
@@ -76,11 +91,17 @@ onBeforeMount(async () => {
         @create="createBoard"
         @close="closeAddBoard"
     />
+    <task-board-edit
+        v-if="isTaskBoardEditActive"
+        @edit="editBoard"
+        @close="closeEditBoard"
+    />
     <sidebar-container/>
     <div class="boards__body">
       <topbar-container
           :name="pageTitle"
           @openAddBoard="openAddBoard"
+          @openEditBoard="openEditBoard"
       />
       <router-view v-slot="{Component}">
         <component

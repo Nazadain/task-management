@@ -18,6 +18,15 @@ export default {
                 state.panels.findIndex(panel => panel.id === updatedPanel.id);
             state.panels[index] = {...state.panels[index], ...updatedPanel}
         },
+        updatePanelPosition(state: PanelsState, { id, position }: any) {
+            const panel = state.panels.find(p => p.id === id);
+            if (panel) {
+                panel.position = position;
+            }
+        },
+        reorderPanels(state: PanelsState, panels: Panel[]) {
+            state.panels = [...panels];
+        },
         addPanel(state: PanelsState, newPanel: Panel): void {
             state.panels.push(newPanel);
         },

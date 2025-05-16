@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 import TaskColumn from "@/components/task/TaskColumn.vue";
-import {computed, onMounted, ref} from "vue";
+import {computed, ref} from "vue";
 import {Board, Panel, RootState, Task} from "@/types";
 import AddForm from "@/components/UI/AddForm.vue";
 import {useStore} from "vuex";
@@ -22,29 +22,95 @@ defineOptions({
   name: "panel-container",
 });
 
+const emit = defineEmits([
+  "movePanel",
+]);
+
 const store = useStore<RootState>();
 const isFormOpen = ref<boolean>(false);
 const isDragDisabled = computed(() => window.innerWidth < 768);
 const tasks = computed(() => store.getters["task/tasks"]);
 
-// const onDragChange = () => {
-//   store.commit("panel/setPanels", props.panels);
-// }
+const setNeighbours = async (evt: any) => {
+  try {
+    const newIndex: number = evt.newIndex;
+    const movedPanel: Panel = props.panels[newIndex];
+
+    const before: Panel = props.panels[newIndex - 1] ?? null;
+    const after: Panel = props.panels[newIndex + 1] ?? null;
+
+    const neighbours = {
+      before: before ? before.id : null,
+      after: after ? after.id : null,
+    }
+
+    const response = await api.put(`/api/panels/${movedPanel.id}`, neighbours);
+    const data = await response.data;
+
+    store.commit("panel/updatePanelPosition", {
+      id: movedPanel.id,
+      position: data.position
+    });
+    const sortedPanels = [...props.panels].sort((a, b) =>
+        a.position - b.position);
+    store.commit("panel/reorderPanels", sortedPanels);
+
+  } catch (e: any) {
+    console.error(e);
+  }
+}
+
 const openSidebar = (content: Content): void => {
   content.parentId = props.board.id;
   store.commit("sidebar/show", {content: content});
 }
-const addTask = (newTask: Task): void => {
-  store.commit("task/addTask", newTask);
+const addTask = async (newTask: Task): Promise<void> => {
+  try {
+    const resp = await api.post(`/api/panels/${newTask.panel_id}`, newTask);
+    const data = await resp.data;
+
+    newTask.id = data.id;
+    newTask.position = data.position;
+
+    store.commit("task/addTask", newTask);
+  } catch (e) {
+    console.error(e);
+  }
 }
 const updateTask = (newTask: Task): void => {
   store.commit("task/updateTask", newTask);
 }
-const updateTasksOrder = (newTasks: Task[]): void => {
-  store.commit("task/reorderTasks", newTasks);
+const updateTasksOrder = async ({id, newTasks, payload}: any): Promise<void> => {
+  try {
+    const response = await api.put(`/api/tasks/${id}`, payload);
+    const updatedTask = response.data;
+
+    const updatedTasks = newTasks.map((task: Task) => {
+      if (task.id === id) {
+        return {
+          ...task,
+          position: updatedTask.position,
+          panel_id: payload.panel_id,
+        };
+      }
+      return task;
+    });
+
+    updatedTasks.sort((t1: Task, t2: Task) => t1.position - t2.position);
+
+    store.commit("task/reorderTasks", updatedTasks);
+
+  } catch (e: any) {
+    console.error(e);
+  }
 }
-const deleteTask = (id: number): void => {
-  store.commit("task/removeTask", id);
+const deleteTask = async (id: number): Promise<void> => {
+  try {
+    store.commit("task/removeTask", id);
+    await api.delete(`/api/tasks/${id}`);
+  } catch (e) {
+    console.error(e);
+  }
 }
 const addPanel = async (title: string): Promise<void> => {
   try {
@@ -71,8 +137,13 @@ const addPanel = async (title: string): Promise<void> => {
     console.error(e);
   }
 }
-const deletePanel = (id: number): void => {
-  store.commit("panel/removePanel", id);
+const deletePanel = async (id: number): Promise<void> => {
+  try {
+    store.commit("panel/removePanel", id);
+    await api.delete(`/api/panels/${id}`);
+  } catch (e) {
+    console.error(e);
+  }
 }
 const openForm = (): void => {
   isFormOpen.value = true;
@@ -88,7 +159,7 @@ const openForm = (): void => {
         :list="panels"
         :disabled="isDragDisabled"
         group="panels"
-        @change="onDragChange"
+        @end="setNeighbours"
     >
       <task-column
           v-for="panel in panels"

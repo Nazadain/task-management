@@ -36,7 +36,7 @@ const show = ref<boolean>(false);
       <div
           v-if="user"
           class="user-info">
-        <h3 class="full-name">{{ user.name }}</h3>
+        <h3 class="username">{{ user.name }}</h3>
         <p class="email">{{ user.email }}</p>
       </div>
     </div>
@@ -65,7 +65,7 @@ const show = ref<boolean>(false);
   transition: 0.2s;
 }
 
-.user__container .user__profile .user-info .full-name {
+.user__container .user__profile .user-info .username {
   font-size: clamp(1rem, 1vw, 3rem);
 }
 
