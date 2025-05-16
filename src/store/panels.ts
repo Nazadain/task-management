@@ -24,11 +24,16 @@ export default {
         removePanel(state: PanelsState, id: number): void {
             const index = state.panels.findIndex(p => p.id === id);
             if (index !== -1) {
-                state.panels.splice(index, 1); // ✅ безопасно, реактивно
+                state.panels.splice(index, 1);
             }
         }
     },
     getters: {
         panels: (state: PanelsState) => state.panels,
+    },
+    actions: {
+        setPanels({commit}: any, panels: Panel[]): void {
+            commit("setPanels", panels);
+        }
     }
 }

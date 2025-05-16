@@ -26,11 +26,11 @@ const emit = defineEmits([
     "openForm",
 ]);
 
-const areaValue = ref<string>('');
+const titleRef = ref<string>('');
 
 const add = (): void => {
-  emit("add", areaValue.value);
-  areaValue.value = "";
+  emit("add", titleRef.value);
+  titleRef.value = "";
 }
 const openForm = (): void => {
   emit("openForm");
@@ -40,7 +40,7 @@ const openForm = (): void => {
 <template>
   <form class="add_form" v-if="show">
         <textarea
-            v-model="areaValue"
+            v-model="titleRef"
             :placeholder="placeholder"
             maxlength="127"
             @keydown.enter.prevent="add"

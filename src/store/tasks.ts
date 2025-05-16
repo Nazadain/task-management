@@ -38,5 +38,10 @@ export default {
     },
     getters: {
         tasks: (state: TasksState) => state.tasks,
+    },
+    actions: {
+        setTasks({ commit }: any, tasks: Task[]) {
+            commit("setTasks", tasks);
+        }
     }
 }

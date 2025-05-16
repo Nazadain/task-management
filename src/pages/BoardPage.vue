@@ -1,46 +1,47 @@
 <script setup lang="ts">
 import TaskBoard from "@/components/task/TaskBoard.vue";
 import {useRoute} from "vue-router";
-import {computed, nextTick, onMounted, watch} from "vue";
+import {computed, onBeforeMount, onMounted, watch} from "vue";
 import {useStore} from "vuex";
-import {Board, Panel, RootState} from "@/types";
+import {Board, RootState} from "@/types";
+import echo from "@/services/echo";
 
 const route = useRoute();
-const emit = defineEmits([
-  "title",
-]);
-
+const emit = defineEmits(["title"]);
 const store = useStore<RootState>();
 
-const boards = computed(() => store.getters["board/boards"]);
-const boardId = computed(() => Number(route.params.id));
-const board = computed<Board | undefined>(() => {
-  return boards.value.find((b: Board) => b.id === boardId.value);
-});
-const panels = computed<Panel[]>(() => {
-  const panels = store.getters["panel/panels"];
-  return panels.filter((p: Panel) => p.boardId === boardId.value);
+const id = computed(() => Number(route.params.id));
+const board = computed<Board>(() => store.getters["board/board"]);
+const panels = computed(() => store.getters["panel/panels"]);
+
+onBeforeMount(async () => {
+  await store.dispatch("board/fetchBoard", id.value);
 });
 
-onMounted(async () => {
-  await nextTick();
-  if (board.value) {
-    emit("title", board.value.title);
-  }
+watch(id, async (newId) => {
+  await store.dispatch("board/fetchBoard", newId);
 });
 
-watch(board, (newBoard: Board | undefined) => {
-  if (newBoard !== undefined) {
+onMounted(() => {
+  echo.private(`board.${id.value}`)
+      .listen('.panel_created', (e: any) => {
+        console.log(`ПАНЕЛЬ СОЗДАНА:`, e);
+      });
+});
+
+watch(board, (newBoard) => {
+  if (newBoard) {
     emit("title", newBoard.title);
   }
 }, {immediate: true});
-
 </script>
 
 <template>
   <div class="scroll_container">
     <task-board
+        v-if="board"
         :board="board"
+        :boardId="id"
         :panels="panels"
     />
   </div>

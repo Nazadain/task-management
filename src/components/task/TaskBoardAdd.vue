@@ -17,6 +17,7 @@ const onCreate = () => {
     description: description.value,
     is_private: isPrivate.value,
   }
+  emit("create", board);
 }
 
 </script>

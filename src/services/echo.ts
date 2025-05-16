@@ -8,9 +8,9 @@ window.Pusher = Pusher;
 
 const echo: Echo<keyof Broadcaster> = new Echo({
     broadcaster: 'reverb',
-    key: 'local',
-    wsHost: window.location.hostname,
-    wsPort: 5000,
+    key: 'tqokhe1voqkvz3c4mkpu',
+    wsHost: "localhost",
+    wsPort: 6001,
     forceTLS: false,
     encrypted: false,
     disableStats: true,
@@ -20,7 +20,7 @@ const echo: Echo<keyof Broadcaster> = new Echo({
             'Authorization': `Bearer ${token}`,
         },
     },
-    authEndpoint: '/api/broadcasting/auth',
+    authEndpoint: 'http://localhost:8000/api/broadcasting/auth',
 });
 
 export default echo;

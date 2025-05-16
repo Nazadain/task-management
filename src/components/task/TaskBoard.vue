@@ -7,9 +7,11 @@ import AddForm from "@/components/UI/AddForm.vue";
 import {useStore} from "vuex";
 import {Content} from "@/store/drawer";
 import {VueDraggableNext} from "vue-draggable-next";
-import axios from "axios";
+import api from "@/http/axios";
+import Cookies from "js-cookie";
 
 interface Props {
+  boardId: number;
   board: Board;
   panels: Panel[];
 }
@@ -21,15 +23,15 @@ defineOptions({
 });
 
 const store = useStore<RootState>();
-const tasks = computed(() => store.getters["task/tasks"]);
 const isFormOpen = ref<boolean>(false);
 const isDragDisabled = computed(() => window.innerWidth < 768);
+const tasks = computed(() => store.getters["task/tasks"]);
 
-const onDragChange = () => {
-  store.commit("panel/setPanels", props.panels);
-}
+// const onDragChange = () => {
+//   store.commit("panel/setPanels", props.panels);
+// }
 const openSidebar = (content: Content): void => {
-  content.boardId = props.board.id;
+  content.parentId = props.board.id;
   store.commit("sidebar/show", {content: content});
 }
 const addTask = (newTask: Task): void => {
@@ -44,15 +46,30 @@ const updateTasksOrder = (newTasks: Task[]): void => {
 const deleteTask = (id: number): void => {
   store.commit("task/removeTask", id);
 }
-const addPanel = (title: string): void => {
-  const newPanel: Panel = {
-    id: Date.now(),
-    title: title,
-    colour: "#71DD37",
-    boardId: props.board.id
+const addPanel = async (title: string): Promise<void> => {
+  try {
+    const newPanel: Panel = {
+      id: -1,
+      title: title,
+      colour: "#71DD37",
+      position: 0,
+      tasks: [],
+    }
+
+    const resp = await api.post(`/api/boards/${props.boardId}/panels`, newPanel, {
+      headers: {"Authorization": `Bearer ${Cookies.get("token")}`}
+    });
+    const data = await resp.data;
+
+    newPanel.id = data.id;
+    newPanel.position = data.position;
+
+    store.commit("panel/addPanel", newPanel);
+
+    isFormOpen.value = false;
+  } catch (e: any) {
+    console.error(e);
   }
-  store.commit("panel/addPanel", newPanel);
-  isFormOpen.value = false;
 }
 const deletePanel = (id: number): void => {
   store.commit("panel/removePanel", id);
@@ -60,22 +77,6 @@ const deletePanel = (id: number): void => {
 const openForm = (): void => {
   isFormOpen.value = true;
 }
-
-onMounted(async () => {
-
-  window.Echo.channel(`board.${props.board.id}`)
-      .listen('panel_created', (e: any) => {
-        console.log(e);
-      });
-
-  const panelsResponse = await axios.get('/panels.json')
-  const panels = await panelsResponse.data;
-  store.commit("panel/setPanels", panels);
-
-  const tasksResponse = await axios.get('/tasks.json');
-  const tasks = await tasksResponse.data;
-  store.commit("task/setTasks", tasks);
-});
 
 </script>
 
@@ -92,7 +93,7 @@ onMounted(async () => {
       <task-column
           v-for="panel in panels"
           :panel="panel"
-          :tasks="tasks.filter((t: Task) => t.panelId === panel.id)"
+          :tasks="tasks"
           @openSidebar="openSidebar"
           @addTask="addTask"
           @updateTask="updateTask"

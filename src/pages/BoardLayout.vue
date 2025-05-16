@@ -2,11 +2,15 @@
 
 import TopbarContainer from "@/components/navbar/topbar/TopbarContainer.vue";
 import Drawer from "@/components/drawer/Drawer.vue";
-import {ref} from "vue";
+import {onBeforeMount, ref} from "vue";
 import SidebarContainer from "@/components/navbar/sidebar/SidebarContainer.vue";
 import TaskBoardAdd from "@/components/task/TaskBoardAdd.vue";
 import api from "@/http/axios";
 import Cookies from "js-cookie";
+import {Board, RootState} from "@/types";
+import {useStore} from "vuex";
+
+const store = useStore<RootState>();
 
 const pageTitle = ref<string>("");
 const isTaskBoardAddActive = ref<boolean>(false);
@@ -21,14 +25,46 @@ const closeAddBoard = (): void => {
   isTaskBoardAddActive.value = false;
 }
 const createBoard = async (board: Object): Promise<void> => {
+  console.log(board);
   const response = await api.post("/api/boards", board, {
     headers: {
       "authorization": `Bearer ${Cookies.get("token")}`,
     }
   });
   const json = await response.data;
-  console.log(json);
+
+  const newBoard: Board = {
+    id: json.id,
+    title: json.title,
+    description: json.description,
+    is_private: json.is_private,
+    role: json.role,
+    panels: []
+  }
+
+  store.commit("board/addBoard", newBoard);
+  closeAddBoard();
 }
+
+onBeforeMount(async () => {
+  const response = await api.get("/api/boards", {
+    headers: {
+      "authorization": `Bearer ${Cookies.get("token")}`,
+    }
+  });
+  const json = await response.data;
+  for (const board of json) {
+    const newBoard: Board = {
+      id: board.id,
+      title: board.title,
+      description: board.description,
+      is_private: board.is_private,
+      role: board.role,
+      panels: []
+    }
+    store.commit("board/addBoard", newBoard);
+  }
+});
 
 </script>
 

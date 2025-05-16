@@ -3,31 +3,29 @@
 import Icon from "@/components/UI/Icon.vue";
 import UserIcon from "@/components/UI/UserIcon.vue";
 import {computed} from "vue";
-import {RootState, Task, User} from "@/types";
+import {Task, User} from "@/types";
 import TaskCardTag from "@/components/task/TaskCardTag.vue";
 import TaskCardProgress from "@/components/task/TaskCardProgress.vue";
 import TaskCardHeader from "@/components/task/TaskCardHeader.vue";
-import {useStore} from "vuex";
 import {Content} from "@/store/drawer";
 import {IconName} from "@/assets/icons";
 
 interface Props {
-  task: Task
+  task: Task,
+  panelId: number,
   color?: string,
   participants?: User[],
 }
 
 const props = defineProps<Props>();
 
-const store = useStore<RootState>();
-
 defineOptions({
   name: "task-card"
 });
 
 const emit = defineEmits([
-    "deleteTask",
-    "openSidebar",
+  "deleteTask",
+  "openSidebar",
 ]);
 
 const shortWords: { [key: number]: string } = {
@@ -61,8 +59,9 @@ const openSidebar = (): void => {
   const content: Content = {
     value: {...props.task},
     type: 'task',
-    boardId: null
+    parentId: props.panelId,
   }
+  console.log(content);
   emit("openSidebar", content);
 }
 const deleteTask = (): void => {

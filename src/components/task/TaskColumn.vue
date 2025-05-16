@@ -26,25 +26,26 @@ const emit = defineEmits([
   "updateTask",
   "updateTasksOrder",
   "update:tasks",
+  "setTasks",
 ]);
 
 const isFormOpen = ref<boolean>(false);
-const isDragDisabled = computed(() => window.innerWidth < 768)
-
+const isDragDisabled = computed(() => window.innerWidth < 768);
 const filteredTasks = computed(() => {
-  return props.tasks.filter((t: Task) => t.panelId === props.panel.id);
-});
+  return props.tasks.filter((t: Task) => t.panel_id === props.panel.id);
+})
+
 
 const onDragChange = (e: any) => {
   if (e.added) {
     const movedTask = {
       ...e.added.element,
-      panelId: props.panel.id
+      panel_id: props.panel.id
     };
     emit("updateTask", movedTask);
   }
 
-  const updatedTasks = [...filteredTasks.value];
+  const updatedTasks = [...props.tasks];
   emit("updateTasksOrder", updatedTasks);
 }
 const addTask = (title: string): void => {
@@ -54,7 +55,7 @@ const addTask = (title: string): void => {
     progress: 0,
     deadline: undefined,
     priority: undefined,
-    panelId: props.panel.id
+    panel_id: props.panel.id,
   }
   emit("addTask", newTask);
   isFormOpen.value = false;
@@ -74,7 +75,6 @@ const openSidebar = (): void => {
   const content: Content = {
     value: panel,
     type: "panel",
-    boardId: panel.boardId,
   }
   emit("openSidebar", content);
 }
@@ -121,8 +121,8 @@ onMounted(async () => {
       <task-card
           v-for="task in filteredTasks"
           :task="task"
+          :panelId="panel.id"
           :color="panel.colour"
-          :participants="users.filter((u: User) => u.tasks.includes(task.id))"
           :key="task.id"
           @openSidebar="openTaskSidebar"
           @deleteTask="deleteTask"

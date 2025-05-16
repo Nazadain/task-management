@@ -13,13 +13,18 @@ export interface User {
 export interface Board {
     id: number;
     title: string;
+    description: string;
+    is_private: boolean;
+    role: string;
+    panels: Panel[];
 }
 
 export interface Panel {
     id: number;
     title: string;
     colour: string;
-    boardId: number;
+    position: number;
+    tasks: Task[];
 }
 
 export interface Task {
@@ -28,7 +33,7 @@ export interface Task {
     deadline?: string | null;
     priority?: number | null;
     progress: number;
-    panelId: number;
+    panel_id: number;
 }
 
 export interface RootState {

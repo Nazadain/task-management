@@ -15,9 +15,6 @@ const store = useStore<RootState>();
 const emit = defineEmits();
 
 const panels = computed(() => store.getters["panel/panels"]);
-const filteredPanels = computed(() => {
-  return panels.value.filter((p: Panel) => p.boardId === props.content.boardId);
-});
 
 const submitForm = (): void => {
   emit("submitForm")
@@ -45,10 +42,10 @@ const submitForm = (): void => {
       <select
           id="status"
           name="status"
-          v-model="content.value.panelId"
+          v-model="content.value.parentId"
       >
         <option
-            v-for="panel in filteredPanels"
+            v-for="panel in panels"
             :value="panel.id">
           {{ panel.title }}
         </option>
