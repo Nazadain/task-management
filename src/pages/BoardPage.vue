@@ -14,7 +14,7 @@ const id = computed<Number>(() => Number(route.params.id));
 const board = computed<Board>(() => store.getters["board/board"]);
 const panels = computed<Panel[]>(() => store.getters["panel/panels"]);
 
-const movePanel = (data: any) => {
+const movePanel = () => {
   store.commit("panel/updatePanel");
 }
 

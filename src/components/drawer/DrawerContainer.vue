@@ -7,6 +7,7 @@ import {useStore} from "vuex";
 import {RootState} from "@/types";
 import EditTaskForm from "@/components/drawer/EditTaskForm.vue";
 import EditPanelForm from "@/components/drawer/EditPanelForm.vue";
+import api from "@/http/axios";
 
 const store = useStore<RootState>();
 
@@ -18,14 +19,29 @@ const hideSidebar = () => {
   store.commit("sidebar/hide");
 }
 
-const submitTaskEdit = (): void => {
-  store.commit("task/updateTask", content.value.value);
+const submitTaskEdit = async (): Promise<void> => {
   hideSidebar();
+
+  const id = content.value.value?.id;
+  const payload = {
+    title: content.value.value?.title,
+    deadline: content.value.value?.deadline,
+    progress: content.value.value?.progress,
+    priority: content.value.value?.priority,
+  }
+
+  await api.patch(`/api/tasks/${id}`,
+      payload
+  );
+
+  store.commit("task/updateTask");
 }
 
-const submitPanelEdit = (): void => {
-  store.commit("panel/updatePanel", content.value.value);
+const submitPanelEdit = async (): Promise<void> => {
   hideSidebar();
+
+
+  store.commit("panel/updatePanel", content.value.value);
 }
 
 watch(() => isActive.value, (newVal) => {

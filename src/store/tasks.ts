@@ -14,7 +14,9 @@ export default {
             state.tasks = tasks;
         },
         updateTask(state: TasksState, updatedTask: Task): void {
-            const task = state.tasks.find(t => t.id === updatedTask.id);
+            console.log(updatedTask);
+            const task = state.tasks
+                .find((t: Task) => t.id === updatedTask.id);
             if (!task) {
                 console.warn(`Task with id ${updatedTask.id} not found`);
                 return;
@@ -43,7 +45,7 @@ export default {
         tasks: (state: TasksState) => state.tasks,
     },
     actions: {
-        setTasks({ commit }: any, tasks: Task[]) {
+        setTasks({commit}: any, tasks: Task[]) {
             commit("setTasks", tasks);
         }
     }

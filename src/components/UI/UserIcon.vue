@@ -1,28 +1,30 @@
 <script setup lang="ts">
 
-import Icon from "@/components/UI/Icon.vue";
-import {IconName} from "@/assets/icons";
+import {useStore} from "vuex";
+import {RootState, User} from "@/types";
+import {computed} from "vue";
 
 interface Props {
   size?: number;
 }
 
-const props = withDefaults(defineProps<Props>(), {
-  size: 12
-})
+withDefaults(defineProps<Props>(), {
+  size: 20
+});
+
+const store = useStore<RootState>();
+
+const user = computed<User>(() => store.getters["user"]);
+const userLetter = computed(() => user.value.name.charAt(0).toUpperCase());
 
 </script>
 
 <template>
   <div
       class="user__icon"
-      :style="`width: ${size * 2}px; height: ${size * 2}px;`"
+      :style="`width:${size}px; height:${size}px;`"
   >
-    <Icon
-        :name="IconName.USER"
-        :size="size"
-        color="#90A4AE"
-    />
+    {{ userLetter }}
   </div>
 </template>
 
@@ -33,7 +35,8 @@ const props = withDefaults(defineProps<Props>(), {
   border-radius: 100%;
   justify-content: center;
   align-items: center;
-  font-size: 14px;
+  font-size: 20px;
+  font-weight: bold;
   cursor: pointer;
 }
 </style>

@@ -8,6 +8,7 @@ import SidebarSearch from "@/components/navbar/sidebar/SidebarSearch.vue";
 import SidebarNav from "@/components/navbar/sidebar/SidebarNav.vue";
 import {useRoute} from "vue-router";
 import router from "@/router/router";
+import Cookies from "js-cookie";
 
 const store = useStore<RootState>();
 const route = useRoute();
@@ -23,7 +24,7 @@ const logout = (): void => {
   store.commit("task/setTasks", []);
   store.commit("panel/setPanels", []);
 
-  document.cookie = ("token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT");
+  Cookies.remove("token");
 
   router.push("/");
 }

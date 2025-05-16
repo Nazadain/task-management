@@ -31,24 +31,41 @@ const emit = defineEmits([
 
 const isFormOpen = ref<boolean>(false);
 const isDragDisabled = computed(() => window.innerWidth < 768);
-const columnTasks = ref<Task[]>([]);
-
-const updateColumnTasks = () => {
-  columnTasks.value = props.tasks
+const columnTasks = computed(() => {
+  return props.tasks
       .filter(t => t.panel_id === props.panel.id)
       .sort((a, b) => a.position - b.position);
-};
+});
 
 const onDragChange = (evt: any) => {
+  const taskList = columnTasks.value;
+
   if (evt.added) {
     const movedTask = evt.added.element;
 
-    // movedTask.panel_id всё ещё старый — обновим его на текущий panel.id
     movedTask.panel_id = props.panel.id;
 
     const index = evt.added.newIndex;
-    const taskList = columnTasks.value;
+    const beforeTask = taskList[index - 1] ?? null;
+    const afterTask = taskList[index + 1] ?? null;
 
+    const payload = {
+      before: beforeTask?.id ?? null,
+      after: afterTask?.id ?? null,
+      panel_id: props.panel.id,
+    };
+
+    emit("updateTasksOrder", {
+      id: movedTask.id,
+      newTasks: taskList,
+      payload,
+    });
+  }
+
+  if (evt.moved) {
+    const movedTask = evt.moved.element;
+
+    const index = evt.moved.newIndex;
     const beforeTask = taskList[index - 1] ?? null;
     const afterTask = taskList[index + 1] ?? null;
 
@@ -104,14 +121,9 @@ const openTaskSidebar = (content: Content): void => {
 const users = ref<User[]>([]);
 
 onMounted(async () => {
-  updateColumnTasks();
   const response = await fetch("/users.json");
   users.value = await response.json();
 });
-
-watch(() => [props.tasks, props.panel.id], () => {
-  updateColumnTasks();
-}, {immediate: true});
 
 </script>
 

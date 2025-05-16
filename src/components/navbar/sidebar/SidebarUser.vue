@@ -32,7 +32,7 @@ const show = ref<boolean>(false);
       </dropdown-btn>
     </dropdown-menu>
     <div class="user__profile" @click.stop="show=true">
-      <UserIcon :size="20"/>
+      <UserIcon :size="35"/>
       <div
           v-if="user"
           class="user-info">
@@ -67,10 +67,12 @@ const show = ref<boolean>(false);
 
 .user__container .user__profile .user-info .username {
   font-size: clamp(1rem, 1vw, 3rem);
+  text-align: left;
 }
 
 .user__container .user__profile .user-info .email {
   font-size: clamp(0.8rem, 0.9vw, 2rem);
   color: #90A4AE;
+  text-align: left;
 }
 </style>

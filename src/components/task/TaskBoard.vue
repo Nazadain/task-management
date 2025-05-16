@@ -85,7 +85,7 @@ const updateTasksOrder = async ({id, newTasks, payload}: any): Promise<void> => 
     const response = await api.put(`/api/tasks/${id}`, payload);
     const updatedTask = response.data;
 
-    const updatedTasks = newTasks.map((task: Task) => {
+    const updatedTasks = newTasks.map((task: Task, index: number) => {
       if (task.id === id) {
         return {
           ...task,
@@ -95,11 +95,9 @@ const updateTasksOrder = async ({id, newTasks, payload}: any): Promise<void> => 
       }
       return task;
     });
-
     updatedTasks.sort((t1: Task, t2: Task) => t1.position - t2.position);
 
     store.commit("task/reorderTasks", updatedTasks);
-
   } catch (e: any) {
     console.error(e);
   }
@@ -114,6 +112,8 @@ const deleteTask = async (id: number): Promise<void> => {
 }
 const addPanel = async (title: string): Promise<void> => {
   try {
+    isFormOpen.value = false;
+
     const newPanel: Panel = {
       id: -1,
       title: title,
@@ -122,17 +122,18 @@ const addPanel = async (title: string): Promise<void> => {
       tasks: [],
     }
 
-    const resp = await api.post(`/api/boards/${props.boardId}/panels`, newPanel, {
-      headers: {"Authorization": `Bearer ${Cookies.get("token")}`}
-    });
+    const resp = await api.post(
+        `/api/boards/${props.boardId}/panels`,
+        newPanel,
+        {
+          headers: {"Authorization": `Bearer ${Cookies.get("token")}`}
+        });
     const data = await resp.data;
 
     newPanel.id = data.id;
     newPanel.position = data.position;
 
     store.commit("panel/addPanel", newPanel);
-
-    isFormOpen.value = false;
   } catch (e: any) {
     console.error(e);
   }

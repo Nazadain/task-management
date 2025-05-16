@@ -35,7 +35,8 @@ export default {
     },
     actions: {
         async fetchBoard({commit, dispatch}: any, boardId: number) {
-            const response = await api.get(`/api/boards/${boardId}`);
+            const response = await
+                api.get(`/api/boards/${boardId}`);
             const boardData: Board = response.data;
 
             const panels = boardData.panels
