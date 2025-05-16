@@ -22,26 +22,37 @@ const hideSidebar = () => {
 const submitTaskEdit = async (): Promise<void> => {
   hideSidebar();
 
-  const id = content.value.value?.id;
-  const payload = {
-    title: content.value.value?.title,
-    deadline: content.value.value?.deadline,
-    progress: content.value.value?.progress,
-    priority: content.value.value?.priority,
+  const task = content.value.value;
+
+  if (!task) {
+    console.warn("No content is selected");
+    return;
   }
 
+  const id = task.id;
+
   await api.patch(`/api/tasks/${id}`,
-      payload
+      task
   );
 
-  store.commit("task/updateTask");
+  store.commit("task/updateTask", task);
 }
 
 const submitPanelEdit = async (): Promise<void> => {
   hideSidebar();
 
+  const panel = content.value.value;
 
-  store.commit("panel/updatePanel", content.value.value);
+  if (!panel) {
+    console.warn("No content is selected");
+    return;
+  }
+
+  const id = panel.id;
+
+  await api.patch(`/api/panels/${id}`, panel);
+
+  store.commit("panel/updatePanel", panel);
 }
 
 watch(() => isActive.value, (newVal) => {
