@@ -1,4 +1,6 @@
-# TaskHerd *(кодовое имя)*
+# TaskHerd *(кодовое имя)* — клиентская часть
+:warning: ***Инструкция по развёртыванию находится в [основном репозитории](https://github.com/befodev/TaskHerd)*** :warning: 
+
 Веб-платформа для управления задачами, созданная командой "MOV AX, BX" в рамках дисциплины "Ознакомительная практика".
 
 **Вуз:** Югорский государственный университет (ЮГУ)
@@ -20,29 +22,9 @@
 **Токарев Александр Дмитриевич (ПИ31б)**
 - аналитика
 
-## Стек технологий *(предварительно)*
-**Backend:** PHP, Composer, Laravel, WebSockets, Swagger, MySQL, Eloquent ORM, Laravel Sanctum и др.
+## Стек технологий
+**Backend:** PHP, Composer, Laravel, Laravel Reverb, Swagger, MySQL, Eloquent ORM, JWT и др.
 
-**Frontend и дизайн:** Vue 3, TypeScript, WebSockets, Figma и др.
+**Frontend и дизайн:** Vue 3, TypeScript, Laravel Echo, Figma и др.
 
-**DevOps:** Docker (Compose)
-
-# Клиентная часть
-
-## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+**DevOps:** Docker (Compose), phpMyAdmin
