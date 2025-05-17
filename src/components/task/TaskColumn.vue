@@ -10,6 +10,7 @@ import {VueDraggableNext} from "vue-draggable-next";
 interface Props {
   panel: Panel;
   tasks: Task[];
+  users: User[];
 }
 
 const props = defineProps<Props>();
@@ -35,6 +36,17 @@ const columnTasks = computed(() => {
   return props.tasks
       .filter(t => t.panel_id === props.panel.id)
       .sort((a, b) => a.position - b.position);
+});
+const participantsMap = computed(() => {
+  const map: Record<number, User[]> = {};
+
+  props.tasks.forEach((task) => {
+    map[task.id] = props.users.filter((user) =>
+        task.ships.includes(user.id)
+    );
+  });
+
+  return map;
 });
 
 const onDragChange = (evt: any) => {
@@ -118,13 +130,6 @@ const openTaskSidebar = (content: Content): void => {
   emit("openSidebar", content);
 }
 
-const users = ref<User[]>([]);
-
-onMounted(async () => {
-  const response = await fetch("/users.json");
-  users.value = await response.json();
-});
-
 </script>
 
 <template>
@@ -159,6 +164,7 @@ onMounted(async () => {
           :panelId="panel.id"
           :color="panel.colour"
           :key="task.id"
+          :participants="participantsMap[task.id] ?? []"
           @openSidebar="openTaskSidebar"
           @deleteTask="deleteTask"
       />

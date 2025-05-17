@@ -61,7 +61,6 @@ const openSidebar = (): void => {
     type: 'task',
     parentId: props.panelId,
   }
-  console.log(content);
   emit("openSidebar", content);
 }
 const deleteTask = (): void => {
@@ -113,6 +112,8 @@ const deleteTask = (): void => {
         <UserIcon
             v-for="(user, index) in participants"
             :key="user.id"
+            :size="24"
+            :user="user"
             :style="`z-index:${participants.length - index}`"
         />
       </div>

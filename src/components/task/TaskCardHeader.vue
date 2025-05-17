@@ -50,7 +50,12 @@ const openEditSidebar = () => {
         Редактировать
       </dropdown-btn>
       <dropdown-btn
-          icon="delete"
+          :icon="IconName.PLAY"
+      >
+        Запустить
+      </dropdown-btn>
+      <dropdown-btn
+          :icon="IconName.DELETE"
           color="#FF4828"
           @click="deleteTask"
       >

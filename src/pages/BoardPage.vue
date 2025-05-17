@@ -3,7 +3,7 @@ import TaskBoard from "@/components/task/TaskBoard.vue";
 import {useRoute} from "vue-router";
 import {computed, onBeforeMount, onMounted, ref, watch} from "vue";
 import {useStore} from "vuex";
-import {Board, Invite, Panel, RootState} from "@/types";
+import {Board, Invite, Panel, RootState, User} from "@/types";
 import echo from "@/services/echo";
 import TaskBoardInvite from "@/components/task/modal/TaskBoardInvite.vue";
 import api from "@/http/axios";
@@ -12,6 +12,7 @@ const route = useRoute();
 const emit = defineEmits(["title"]);
 const store = useStore<RootState>();
 
+const users = computed<User[]>(() => store.getters["users/users"])
 const id = computed<Number>(() => Number(route.params.id));
 const board = computed<Board>(() => store.getters["board/board"]);
 const panels = computed<Panel[]>(() => store.getters["panel/panels"]);
@@ -33,8 +34,12 @@ const generateInvite = async (payload: any): Promise<void> => {
 
 onMounted(async () => {
   if (id.value) {
-    const response = await api.get(`/api/boards/${id.value}/invites`);
-    invites.value = await response.data;
+    const res1 = await api.get(`/api/boards/${id.value}/invites`);
+    invites.value = await res1.data;
+
+    const res2 = await api.get(`/api/boards/${id.value}/members`);
+    const users: User[] = res2.data;
+    store.commit("users/setUsers", users);
   }
 })
 
@@ -68,6 +73,7 @@ watch(board, (newBoard) => {
         :board="board"
         :boardId="id"
         :panels="panels"
+        :users="users"
         @movePanel="movePanel"
     />
   </div>

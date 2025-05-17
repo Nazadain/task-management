@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import {Content} from "@/store/drawer";
 import {useStore} from "vuex";
-import {Panel, RootState} from "@/types";
-import {computed} from "vue";
+import {RootState, User} from "@/types";
+import {computed, ref} from "vue";
+import api from "@/http/axios";
+import {useRoute} from "vue-router";
 
 interface Props {
   content: Content;
@@ -11,14 +13,38 @@ interface Props {
 const props = defineProps<Props>();
 
 const store = useStore<RootState>();
-
 const emit = defineEmits();
+const route = useRoute();
 
 const panels = computed(() => store.getters["panel/panels"]);
+const users = ref<User[]>([]);
+const showModal = ref(false);
+const selectedUserIds = ref<number[]>([]);
+const boardId = computed<number>(() => Number(route.params.id));
 
-const submitForm = (): void => {
-  emit("submitForm")
+const fetchUsers = async (): Promise<void> => {
+  const response = await api.get(`/api/boards/${boardId.value}/members`);
+  users.value = await response.data;
+};
+const submitForm = async (): Promise<void> => {
+
+  await api.post(`/api/tasks/${props.content.value?.id}/workers`,
+      {ships: selectedUserIds.value});
+
+  emit("submitForm");
 }
+const toggleModal = (): void => {
+  showModal.value = !showModal.value;
+  if (showModal.value && users.value.length === 0) fetchUsers();
+};
+
+const toggleUser = (id: number): void => {
+  if (selectedUserIds.value.includes(id)) {
+    selectedUserIds.value = selectedUserIds.value.filter(uid => uid !== id);
+  } else {
+    selectedUserIds.value.push(id);
+  }
+};
 </script>
 
 <template>
@@ -87,8 +113,30 @@ const submitForm = (): void => {
       </select>
     </div>
 
-    <div class="participants-list">
+    <div class="form-item">
+      <button type="button" @click="toggleModal" class="submit-btn">
+        Добавить участников
+      </button>
+    </div>
 
+    <div v-if="showModal" class="modal">
+      <div class="modal-content">
+        <h3>Выберите участников</h3>
+        <div class="user-list">
+          <div v-for="user in users" :key="user.id" class="user-item">
+            <label>
+              {{ user.name }}
+              <input
+                  type="checkbox"
+                  :value="user.id"
+                  :checked="selectedUserIds.includes(user.id)"
+                  @change="toggleUser(user.id)"
+              />
+            </label>
+          </div>
+        </div>
+        <button type="button" @click="toggleModal" class="submit-btn">Готово</button>
+      </div>
     </div>
 
     <input class="submit-btn" type="submit" value="Применить">
@@ -118,6 +166,45 @@ const submitForm = (): void => {
 }
 
 .edit_form select {
+  cursor: pointer;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background: white;
+  padding: 25px;
+  border-radius: 10px;
+  max-height: 80%;
+  overflow-y: auto;
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.user-list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.user-item label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   cursor: pointer;
 }
 

@@ -35,6 +35,7 @@ export interface Task {
     progress: number;
     position: number;
     panel_id: number;
+    ships: number[];
 }
 
 export interface Invite {

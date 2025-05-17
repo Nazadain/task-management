@@ -2,7 +2,7 @@
 
 import TaskColumn from "@/components/task/TaskColumn.vue";
 import {computed, ref} from "vue";
-import {Board, Panel, RootState, Task} from "@/types";
+import {Board, Panel, RootState, Task, User} from "@/types";
 import AddForm from "@/components/UI/AddForm.vue";
 import {useStore} from "vuex";
 import {Content} from "@/store/drawer";
@@ -14,6 +14,7 @@ interface Props {
   boardId: number;
   board: Board;
   panels: Panel[];
+  users: User[];
 }
 
 const props = defineProps<Props>();
@@ -166,6 +167,7 @@ const openForm = (): void => {
           v-for="panel in panels"
           :panel="panel"
           :tasks="tasks"
+          :users="users"
           @openSidebar="openSidebar"
           @addTask="addTask"
           @updateTask="updateTask"
