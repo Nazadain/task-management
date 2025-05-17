@@ -103,6 +103,7 @@ const addTask = (title: string): void => {
     priority: undefined,
     position: 0,
     panel_id: props.panel.id,
+    ships: [],
   }
   emit("addTask", newTask);
   isFormOpen.value = false;
