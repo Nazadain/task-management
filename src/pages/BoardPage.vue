@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import TaskBoard from "@/components/task/TaskBoard.vue";
 import {useRoute} from "vue-router";
-import {computed, onBeforeMount, onMounted, watch} from "vue";
+import {computed, onBeforeMount, onMounted, ref, watch} from "vue";
 import {useStore} from "vuex";
-import {Board, Panel, RootState} from "@/types";
+import {Board, Invite, Panel, RootState} from "@/types";
 import echo from "@/services/echo";
+import TaskBoardInvite from "@/components/task/modal/TaskBoardInvite.vue";
+import api from "@/http/axios";
 
 const route = useRoute();
 const emit = defineEmits(["title"]);
@@ -13,10 +15,28 @@ const store = useStore<RootState>();
 const id = computed<Number>(() => Number(route.params.id));
 const board = computed<Board>(() => store.getters["board/board"]);
 const panels = computed<Panel[]>(() => store.getters["panel/panels"]);
+const isInviteUserActive = computed<boolean>(() =>
+    store.getters["board/isInviteOpen"]);
+const invites = ref<Invite[]>([]);
 
 const movePanel = () => {
   store.commit("panel/updatePanel");
 }
+const closeInviteUser = (): void => {
+  store.commit("board/setInviteOpen", false);
+}
+const generateInvite = async (payload: any): Promise<void> => {
+  const response = await api.post(`/api/boards/${id.value}/invites`, payload);
+  const data: Invite = await response.data;
+  invites.value.push(data);
+}
+
+onMounted(async () => {
+  if (id.value) {
+    const response = await api.get(`/api/boards/${id.value}/invites`);
+    invites.value = await response.data;
+  }
+})
 
 onBeforeMount(async () => {
   await store.dispatch("board/fetchBoard", id.value);
@@ -24,13 +44,8 @@ onBeforeMount(async () => {
 
 watch(id, async (newId) => {
   await store.dispatch("board/fetchBoard", newId);
-});
-
-onMounted(() => {
-  // echo.private(`board.${id.value}`)
-  //     .listen('.panel_created', (e: any) => {
-  //       console.log(`ПАНЕЛЬ СОЗДАНА:`, e);
-  //     });
+  const response = await api.get(`/api/boards/${id.value}/invites`);
+  invites.value = await response.data;
 });
 
 watch(board, (newBoard) => {
@@ -42,6 +57,12 @@ watch(board, (newBoard) => {
 
 <template>
   <div class="scroll_container">
+    <task-board-invite
+        v-if="isInviteUserActive"
+        v-model:invites="invites"
+        @generate="generateInvite"
+        @close="closeInviteUser"
+    />
     <task-board
         v-if="board"
         :board="board"

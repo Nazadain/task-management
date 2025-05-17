@@ -40,7 +40,7 @@
   resize: none;
 }
 
-.add_form .form-input {
+.add_form .form-input, select {
   padding: 8px;
   font-size: 16px;
   border-radius: 10px;

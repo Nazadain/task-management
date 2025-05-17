@@ -2,7 +2,7 @@
 
 import TopbarContainer from "@/components/navbar/topbar/TopbarContainer.vue";
 import Drawer from "@/components/drawer/Drawer.vue";
-import {onBeforeMount, ref} from "vue";
+import {computed, onBeforeMount, onMounted, ref} from "vue";
 import SidebarContainer from "@/components/navbar/sidebar/SidebarContainer.vue";
 import TaskBoardAdd from "@/components/task/modal/TaskBoardAdd.vue";
 import api from "@/http/axios";
@@ -11,6 +11,7 @@ import {Board, RootState} from "@/types";
 import {useStore} from "vuex";
 import TaskBoardEdit from "@/components/task/modal/TaskBoardEdit.vue";
 import {useRoute} from "vue-router";
+import TaskBoardInvite from "@/components/task/modal/TaskBoardInvite.vue";
 
 const store = useStore<RootState>();
 const route = useRoute();
@@ -33,6 +34,9 @@ const openEditBoard = (): void => {
 }
 const closeEditBoard = (): void => {
   isTaskBoardEditActive.value = false;
+}
+const openInviteUser = (): void => {
+  store.commit("board/setInviteOpen", true)
 }
 const createBoard = async (board: Board): Promise<void> => {
   const response = await api.post("/api/boards", board, {
@@ -96,11 +100,13 @@ onBeforeMount(async () => {
         @edit="editBoard"
         @close="closeEditBoard"
     />
+
     <sidebar-container/>
     <div class="boards__body">
       <topbar-container
           :name="pageTitle"
           @openAddBoard="openAddBoard"
+          @openInviteUser="openInviteUser"
           @openEditBoard="openEditBoard"
       />
       <router-view v-slot="{Component}">

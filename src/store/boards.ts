@@ -4,13 +4,15 @@ import api from "@/http/axios";
 export interface BoardState {
     boards: Board[];
     board: Board | null;
+    isInviteOpen: boolean;
 }
 
 export default {
     namespaced: true,
     state: (): BoardState => ({
         boards: [],
-        board: null
+        board: null,
+        isInviteOpen: false,
     }),
     mutations: {
         setBoards(state: BoardState, boards: Board[]): void {
@@ -27,11 +29,15 @@ export default {
         },
         removeBoard(state: BoardState, board: Board): void {
             state.boards.splice(state.boards.indexOf(board), 1);
+        },
+        setInviteOpen(state: BoardState, inviteOpen: boolean): void {
+            state.isInviteOpen = inviteOpen;
         }
     },
     getters: {
         boards: (state: BoardState) => state.boards,
         board: (state: BoardState) => state.board,
+        isInviteOpen: (state: BoardState) => state.isInviteOpen,
     },
     actions: {
         async fetchBoard({commit, dispatch}: any, boardId: number) {

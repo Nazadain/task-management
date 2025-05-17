@@ -80,7 +80,7 @@ const submitForm = (): void => {
           name="priority"
           v-model="content.value.priority"
       >
-        <option :value="undefined">Нет</option>
+        <option :value="null">Нет</option>
         <option :value="0">Низкий</option>
         <option :value="1">Обычный</option>
         <option :value="2">Высокий</option>

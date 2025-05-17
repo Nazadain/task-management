@@ -15,6 +15,7 @@ const props = defineProps<Props>();
 const emit = defineEmits([
     "openAddBoard",
     "openEditBoard",
+    "openInviteUser"
 ]);
 
 const store = useStore<RootState>();
@@ -45,7 +46,16 @@ const board = computed(() => store.getters["board/board"]);
     </div>
 
     <div
-        class="add__board-btn"
+        v-if="isBoardPage"
+        class="btn invite__user-btn"
+        @click="emit('openInviteUser')"
+    >
+      <Icon name="plus" :size="16" color="#6F72FF"/>
+      Пригласить
+    </div>
+    <div
+        v-else
+        class="btn add__board-btn"
         @click="emit('openAddBoard')"
     >
       <Icon name="plus" :size="16" color="#6F72FF"/>
@@ -88,7 +98,7 @@ const board = computed(() => store.getters["board/board"]);
   text-overflow: ellipsis;
 }
 
-.topbar__container .add__board-btn {
+.topbar__container .btn {
   display: flex;
   flex-direction: row;
   align-items: center;

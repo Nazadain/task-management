@@ -37,11 +37,23 @@ export interface Task {
     panel_id: number;
 }
 
+export interface Invite {
+    id: number;
+    total_usages: number;
+    role: string;
+    is_active: boolean;
+}
+
 export interface RootState {
     sidebar: Drawer,
     tasks: TasksState,
     panels: PanelsState,
     auth: AuthState,
     boards: BoardState,
+}
+
+export enum Role {
+    MANAGER = "Менеджер",
+    DEVELOPER = "Разработчик",
 }
 

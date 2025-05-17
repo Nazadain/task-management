@@ -9,6 +9,7 @@ import StartPage from "@/pages/StartPage.vue";
 import LoginForm from "@/components/auth/LoginForm.vue";
 import RegisterForm from "@/components/auth/RegisterForm.vue";
 import {watch} from "vue";
+import InvitePage from "@/pages/InvitePage.vue";
 
 const routes = [
     {
@@ -35,6 +36,13 @@ const routes = [
             {path: ":id", name: "BoardItem", component: BoardPage},
         ],
     },
+    {
+        path: "/invite",
+        meta: {requiresAuth: true},
+        children: [
+            {path: ":id", name: "InvitePage", component: InvitePage},
+        ]
+    }
 ];
 
 const router = createRouter({

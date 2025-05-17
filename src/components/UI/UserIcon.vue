@@ -15,7 +15,10 @@ withDefaults(defineProps<Props>(), {
 const store = useStore<RootState>();
 
 const user = computed<User>(() => store.getters["user"]);
-const userLetter = computed(() => user.value.name.charAt(0).toUpperCase());
+const userLetter = computed(() => {
+  if (!user.value) return "";
+  return user.value.name.charAt(0).toUpperCase();
+});
 
 </script>
 

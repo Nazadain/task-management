@@ -35,6 +35,7 @@ const onEdit = (): void => {
     panels: []
   }
   emit("edit", editedBoard);
+  emit("close");
 }
 
 </script>

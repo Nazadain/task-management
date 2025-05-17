@@ -53,8 +53,8 @@ const emit = defineEmits([
   justify-content: center;
   align-items: center;
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 5px;
+  right: 5px;
   width: 25px;
   height: 25px;
   border-radius: 100%;
